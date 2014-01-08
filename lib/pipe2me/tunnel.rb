@@ -1,9 +1,11 @@
 require "pipe2me/ext/http"
+require "pipe2me/ext/sys"
 require "pipe2me/ext/shell_format"
 
 module Pipe2me::Tunnel
   HTTP = Pipe2me::HTTP
   ShellFormat = Pipe2me::ShellFormat
+  include Pipe2me::Sys
 
   extend self
 
@@ -52,15 +54,18 @@ module Pipe2me::Tunnel
   end
 
   private
+  SSH_PUBKEY = "pipe2me.id_rsa.pub"
+  SSH_PRIVKEY = "pipe2me.id_rsa"
+
 
   def ssh_keygen
     fqdn = settings[:fqdn]
-    system "ssh-keygen -t rsa -N '' -C #{fqdn} -f pipe2me.id_rsa >&2"
-    system "chmod 600 pipe2me.id_rsa*"
-    HTTP.post!("#{url}/id_rsa.pub", File.read("pipe2me.id_rsa.pub"), {'Content-Type' =>'text/plain'})
+    sh! "ssh-keygen -t rsa -N '' -C #{fqdn} -f pipe2me.id_rsa >&2"
+    sh! "chmod 600 pipe2me.id_rsa*"
+    HTTP.post!("#{url}/id_rsa.pub", File.read(SSH_PUBKEY), {'Content-Type' =>'text/plain'})
   rescue
-    FileUtils.rm_rf "pipe2me.id_rsa"
-    FileUtils.rm_rf "pipe2me.id_rsa.pub"
+    FileUtils.rm_rf SSH_PRIVKEY
+    FileUtils.rm_rf SSH_PUBKEY
     raise
   end
 end
