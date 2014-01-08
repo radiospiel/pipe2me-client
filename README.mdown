@@ -12,9 +12,11 @@ You must install
 
 Then you can run tests by executing `rake`.
 
-## Contributing & Licensing
+## Licensing
 
-**The pipe2me client software** is released to you under the terms of the MIT License (MIT), see
-COPYING.MIT for details.
+**The pipe2me client software** is (c) The Kinko Team, 2014 and released to you under the terms of the MIT License (MIT), see COPYING.MIT for details.
+
+The subdirectory lib/vendor contains third-party code, which is subject to its own copyrights.
+Please see the respective source files for copyright information.
 
 (c) The kinko team, 2014
