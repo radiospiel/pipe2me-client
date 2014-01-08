@@ -20,6 +20,8 @@ domain name) in a single directory. This directory contains these files:
   * *pipe2me.id_rsa.pub*: the SSH private key
   * *pipe2me.info.inc*: settings managed by the pipe2me server
   * *pipe2me.local.inc*: settings managed by the client
+  * *pipe2me.openssl.cert*: openssl certificate
+  * *pipe2me.openssl.priv*: openssl private key
 
 ## OPTIONS
 
