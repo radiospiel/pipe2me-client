@@ -22,4 +22,10 @@ module Pipe2me::CLI
   def update
     Pipe2me::Tunnel.update
   end
+
+  banner "Start tunnels"
+  def start
+    runner = File.dirname(__FILE__) + "/../../vendor/pipe2me-runner"
+    Kernel.exec runner, Pipe2me::Tunnel::procfile
+  end
 end

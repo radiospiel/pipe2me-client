@@ -9,10 +9,13 @@ module Pipe2me::Tunnel
 
   SSH_PUBKEY  = "pipe2me.id_rsa.pub"
   SSH_PRIVKEY = "pipe2me.id_rsa"
+
+  PROCFILE    = "pipe2me.procfile"
 end
 
 require_relative "tunnel/openssl"
 require_relative "tunnel/ssh"
+require_relative "tunnel/procfile"
 
 module Pipe2me::Tunnel
   ShellFormat = Pipe2me::ShellFormat
@@ -20,6 +23,7 @@ module Pipe2me::Tunnel
 
   include OpenSSL
   include SSH
+  include Procfile
 
   extend self
 
@@ -72,5 +76,6 @@ module Pipe2me::Tunnel
     unless File.exists?(SSL_CERT)
       ssl_certsign
     end
+    procfile("tunnels")
   end
 end
