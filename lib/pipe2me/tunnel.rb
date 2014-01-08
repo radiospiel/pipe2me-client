@@ -48,18 +48,15 @@ module Pipe2me::Tunnel
 
   # The base URL for this tunnels' configuration
   def url
-    server, token = settings.values_at :server, :token
-    "#{server}/subdomains/#{token}"
+    "#{config.server}/subdomains/#{config.token}"
   end
 
-  def fqdn
-    settings[:fqdn]
-  end
-
-  def settings
-    @settings ||= {}.tap do |hsh|
+  def config
+    @config ||= begin
+      hsh = { :local_ports => [] }
       hsh.update ShellFormat.read("pipe2me.info.inc")
       hsh.update ShellFormat.read("pipe2me.local.inc")
+      OpenStruct.new hsh
     end
   end
 

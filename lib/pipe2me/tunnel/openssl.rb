@@ -15,7 +15,7 @@ module Pipe2me::Tunnel::OpenSSL
       "-new", "-nodes",
       "-keyout", SSL_KEY,
       "-out", "#{SSL_KEY}.csr",
-      "-subj", "/C=de/ST=ne/L=Berlin/O=pipe2me/CN=#{fqdn}",
+      "-subj", "/C=de/ST=ne/L=Berlin/O=pipe2me/CN=#{config.fqdn}",
       "-days", "7300"
   end
 
