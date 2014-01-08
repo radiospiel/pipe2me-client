@@ -59,7 +59,7 @@
     <a href="#FILES">FILES</a>
     <a href="#OPTIONS">OPTIONS</a>
     <a href="#TUNNEL-SETUP">TUNNEL SETUP</a>
-    <a href="#EXAMPLES">EXAMPLES</a>
+    <a href="#SHOW-TUNNEL-SETTINGS">SHOW TUNNEL SETTINGS</a>
     <a href="#BUGS">BUGS</a>
     <a href="#COPYRIGHT">COPYRIGHT</a>
     <a href="#SEE-ALSO">SEE ALSO</a>
@@ -78,7 +78,8 @@
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
-<p><code>pipe2me</code> [ options ] setup ...<br /></p>
+<p><code>pipe2me</code> [ options ] setup ...<br />
+<code>pipe2me</code> [ options ] env<br /></p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -122,11 +123,28 @@ local ports, one per protocol</li>
 </ul>
 
 
-<h2 id="EXAMPLES">EXAMPLES</h2>
+<h3 id="EXAMPLES">EXAMPLES</h3>
 
 <p>Setup 3 tunnels under a specific FQDN:</p>
 
 <pre><code>$ pipe2me setup --protocols=https,http,imap
+</code></pre>
+
+<h2 id="SHOW-TUNNEL-SETTINGS">SHOW TUNNEL SETTINGS</h2>
+
+<p><code>pipe2me</code> env<br /></p>
+
+<p>shows the tunnel configuration in the current directory.</p>
+
+<h3 id="EXAMPLES">EXAMPLES</h3>
+
+<pre><code>$ pipe2me env
+./bin/pipe2me env
+PIPE2ME_SERVER=http://pipe2.dev
+PIPE2ME_TOKEN=69o1ykbfzggz9lcd6qjzkggq7
+PIPE2ME_FQDN=handsome-snowwhite-hamster.pipe2.dev
+PIPE2ME_URLS_0=https://handsome-snowwhite-hamster.pipe2.dev:10049
+PIPE2ME_TUNNEL=ssh://eno@pipe2.dev:4444
 </code></pre>
 
 <h2 id="BUGS">BUGS</h2>

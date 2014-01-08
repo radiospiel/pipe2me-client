@@ -11,4 +11,10 @@ module Pipe2me::CLI
     # update server_info[:fqdn]
     puts server_info[:fqdn]
   end
+
+  banner "show tunnel configuration"
+  def env(*args)
+    puts File.read("pipe2me.local.inc")
+    puts File.read("pipe2me.info.inc")
+  end
 end

@@ -14,8 +14,12 @@ module Pipe2me::ShellFormat
 
   alias :shell :dump
 
+  PREFIX = "PIPE2ME"
+
   def parse(data)
     arrays = {}
+
+    prefix_re = Regexp.compile(/^#{PREFIX.downcase}_/)
 
     data.lines.inject({}) do |hsh, line|
       key, value = line.split(/\s*=\s*/, 2)
@@ -28,7 +32,7 @@ module Pipe2me::ShellFormat
         key, value = $1, ary
       end
 
-      hsh.update key.downcase.to_sym => value
+      hsh.update key.downcase.gsub(prefix_re, "").to_sym => value
     end
   end
 
@@ -54,7 +58,7 @@ module Pipe2me::ShellFormat
       if obj.respond_to?(:attributes)
         format_entries(ary, obj.attributes, prefix)
       else
-        ary << "#{prefix}=#{Shellwords.escape(obj)}\n"
+        ary << "#{PREFIX}_#{prefix}=#{Shellwords.escape(obj)}\n"
       end
     end
   end
