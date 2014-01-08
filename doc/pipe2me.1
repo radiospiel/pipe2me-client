@@ -7,7 +7,7 @@
 \fBpipe2me\fR \- manage tunnels to a pipe2me server
 .
 .SH "SYNOPSIS"
-\fBpipe2me\fR setup \.\.\.
+\fBpipe2me\fR [ options ] setup \.\.\.
 .
 .br
 .
@@ -35,6 +35,40 @@ Be more quiet\.
 .TP
 \fB\-s\fR, \fB\-\-silent\fR
 Be absolutely silent\.
+.
+.SH "TUNNEL SETUP"
+\fBpipe2me\fR [ options ] setup \.\.\.
+.
+.br
+.
+.P
+These options control the tunnel setup:
+.
+.P
+Options include:
+.
+.IP "\(bu" 4
+\fB\-\-server\fR, \fB\-s\fR servername: Use pipe2\.me server on that host (default: http://pipe2\.dev)
+.
+.IP "\(bu" 4
+\fB\-\-auth\fR, \fB\-a\fR authtoken:
+.
+.br
+pipe2\.me auth token (default: pipe2\-dev\-token)
+.
+.IP "\(bu" 4
+\fB\-\-protocols\fR, \fB\-p\fR protocols:
+.
+.br
+protocol names, e\.g\. \'http,https,imap\' (default: https)
+.
+.IP "\(bu" 4
+\fB\-\-local\-ports\fR, \fB\-l\fR ports:
+.
+.br
+local ports, one per protocol
+.
+.IP "" 0
 .
 .SH "EXAMPLES"
 Setup 3 tunnels under a specific FQDN:

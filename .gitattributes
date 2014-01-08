@@ -5,4 +5,5 @@
 *.md filter=trimWhitespace
 *.mdown filter=trimWhitespace
 *.sh filter=trimWhitespace
+*.ronn filter=trimWhitespace
 Rakefile filter=trimWhitespace
