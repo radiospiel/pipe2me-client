@@ -1,8 +1,7 @@
 task :default => :test
 
 task :test do
-  Dir.chdir "test"
-  system "roundup"
+  system "roundup test/*-test.sh"
 end
 
 task :doc do
