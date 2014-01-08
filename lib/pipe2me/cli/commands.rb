@@ -34,4 +34,17 @@ module Pipe2me::CLI
     runner = File.dirname(__FILE__) + "/../../vendor/pipe2me-runner"
     Kernel.exec runner, Pipe2me::Tunnel::procfile("echo")
   end
+
+  option :format, "Export configuration type", :default => "initscript"
+  banner "export startup configuration"
+  def export
+    format = options[:format]
+    procfile = Pipe2me::Tunnel::procfile
+
+    target = "pipe2me.export.#{format}"
+    whoami = `whoami`.chomp
+
+    Pipe2me::Sys.sh! "foreman export #{format} -f #{procfile} --app pipe2me --user #{whoami} --log pipe2me.log #{target}"
+    UI.success "Created #{target}"
+  end
 end

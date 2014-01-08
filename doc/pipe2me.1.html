@@ -62,6 +62,7 @@
     <a href="#SHOW-TUNNEL-SETTINGS">SHOW TUNNEL SETTINGS</a>
     <a href="#START-TUNNELS">START TUNNELS</a>
     <a href="#TEST-TUNNELS">TEST TUNNELS</a>
+    <a href="#EXPORT-STARTUP-SCRIPTS">EXPORT STARTUP SCRIPTS</a>
     <a href="#BUGS">BUGS</a>
     <a href="#COPYRIGHT">COPYRIGHT</a>
     <a href="#SEE-ALSO">SEE ALSO</a>
@@ -83,7 +84,8 @@
 <p><code>pipe2me</code> [ options ] setup ...<br />
 <code>pipe2me</code> [ options ] env<br />
 <code>pipe2me</code> [ options ] start<br />
-<code>pipe2me</code> [ options ] echo<br /></p>
+<code>pipe2me</code> [ options ] echo<br />
+<code>pipe2me</code> [ options ] export [ format ]<br /></p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -166,7 +168,7 @@ PIPE2ME_TUNNEL=ssh://eno@pipe2.dev:4444
 
 <p><code>pipe2me</code> start<br /></p>
 
-<p>starts all configured tunnels</p>
+<p>starts all configured tunnels.</p>
 
 <h2 id="TEST-TUNNELS">TEST TUNNELS</h2>
 
@@ -183,6 +185,26 @@ the local machine. This command is intended for testing.</p>
 </ul>
 
 
+<h2 id="EXPORT-STARTUP-SCRIPTS">EXPORT STARTUP SCRIPTS</h2>
+
+<p><code>pipe2me</code> export [ format ]<br /></p>
+
+<p>exports startup script(s) in a number of supported formats. Startup scripts
+are created in <code>pipe2me.exports.&lt;format></code>.</p>
+
+<p>Currently the
+following formats are supported:</p>
+
+<ul>
+<li>initscript (default): /etc/init.d init scripts</li>
+<li>upstart: Ubuntus upstart daemon manager</li>
+<li>inittab: Linux inittab</li>
+<li>runit: <span class="man-ref">runit<span class="s">(8)</span></span></li>
+</ul>
+
+
+<p>Support for exports is supplied via <a href="http://ddollar.github.io/foreman/">foreman</a>.</p>
+
 <h2 id="BUGS">BUGS</h2>
 
 <p>The installed version of <strong>pipe2me</strong> is written in Ruby. A more portable
@@ -197,7 +219,7 @@ Please see the README.md file for more information.</p>
 
 <h2 id="SEE-ALSO">SEE ALSO</h2>
 
-<p><span class="man-ref">ssh<span class="s">(1)</span></span>, <span class="man-ref">sshd<span class="s">(8)</span></span>, <span class="man-ref">autossh<span class="s">(1)</span></span>.</p>
+<p><span class="man-ref">ssh<span class="s">(1)</span></span>, <span class="man-ref">sshd<span class="s">(8)</span></span>, <span class="man-ref">autossh<span class="s">(1)</span></span>, <span class="man-ref">runit<span class="s">(8)</span></span>, <span class="man-ref">inittab<span class="s">(8)</span></span>.</p>
 
 
   <ol class='man-decor man-foot man foot'>

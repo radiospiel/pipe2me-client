@@ -19,6 +19,9 @@
 \fBpipe2me\fR [ options ] echo
 .
 .br
+\fBpipe2me\fR [ options ] export [ format ]
+.
+.br
 .
 .SH "DESCRIPTION"
 \fBpipe2me\fR is a client for the pipe2me server package, which helps tunnel TCP connections through routers\.
@@ -143,7 +146,7 @@ PIPE2ME_TUNNEL=ssh://eno@pipe2\.dev:4444
 .br
 .
 .P
-starts all configured tunnels
+starts all configured tunnels\.
 .
 .SH "TEST TUNNELS"
 \fBpipe2me\fR test
@@ -164,6 +167,34 @@ https
 .
 .IP "" 0
 .
+.SH "EXPORT STARTUP SCRIPTS"
+\fBpipe2me\fR export [ format ]
+.
+.br
+.
+.P
+exports startup script(s) in a number of supported formats\. Startup scripts are created in \fBpipe2me\.exports\.<format>\fR\.
+.
+.P
+Currently the following formats are supported:
+.
+.IP "\(bu" 4
+initscript (default): /etc/init\.d init scripts
+.
+.IP "\(bu" 4
+upstart: Ubuntus upstart daemon manager
+.
+.IP "\(bu" 4
+inittab: Linux inittab
+.
+.IP "\(bu" 4
+runit: runit(8)
+.
+.IP "" 0
+.
+.P
+Support for exports is supplied via foreman \fIhttp://ddollar\.github\.io/foreman/\fR\.
+.
 .SH "BUGS"
 The installed version of \fBpipe2me\fR is written in Ruby\. A more portable and version of this program \- e\.g\. in bash \- would be welcome\.
 .
@@ -174,4 +205,4 @@ The installed version of \fBpipe2me\fR is written in Ruby\. A more portable and 
 The software contains third party code under their respective copyrights\. Please see the README\.md file for more information\.
 .
 .SH "SEE ALSO"
-ssh(1), sshd(8), autossh(1)\.
+ssh(1), sshd(8), autossh(1), runit(8), inittab(8)\.
