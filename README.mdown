@@ -1,0 +1,10 @@
+# pipe2me client
+
+This is the ruby client for the pipe2me server package.
+
+### Contributing & Licensing
+
+**The pipe2me client software** is released to you under the terms of the MIT License (MIT), see
+COPYING.MIT for details.
+
+(c) The kinko team, 2014
