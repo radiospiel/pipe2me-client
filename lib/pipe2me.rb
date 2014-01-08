@@ -5,4 +5,5 @@ require_relative "vendor/ui"
 
 require_relative "pipe2me/version"
 require_relative "pipe2me/config"
+require_relative "pipe2me/tunnel"
 
