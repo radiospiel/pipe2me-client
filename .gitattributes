@@ -1,0 +1,8 @@
+# See https://github.com/radiospiel/git-trim-whitespace
+#
+*.rb filter=trimWhitespace
+*.ru filter=trimWhitespace
+*.md filter=trimWhitespace
+*.mdown filter=trimWhitespace
+*.sh filter=trimWhitespace
+Rakefile filter=trimWhitespace
