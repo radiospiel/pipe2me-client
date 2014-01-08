@@ -2,7 +2,17 @@
 
 This is the ruby client for the pipe2me server package.
 
-### Contributing & Licensing
+## Testing
+
+You must install
+[roundup](https://github.com/bmizerany/roundup/blob/master/INSTALLING#files) to run the tests:
+
+    # on a mac. See roundup readme for non macs
+    brew install roundup
+
+Then you can run tests by executing `rake`.
+
+## Contributing & Licensing
 
 **The pipe2me client software** is released to you under the terms of the MIT License (MIT), see
 COPYING.MIT for details.
