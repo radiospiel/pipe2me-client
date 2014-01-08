@@ -30,7 +30,7 @@ module Pipe2me::ShellFormat
       value.gsub!(/\s*$/, "")
       value = Integer(value) rescue value
 
-      if key =~ /^([^_]+)_(\d+)$/
+      if key =~ /^(.*)_(\d+)$/
         ary = arrays[$1] ||= []
         ary[$2.to_i] = value
         key, value = $1, ary
