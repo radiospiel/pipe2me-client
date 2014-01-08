@@ -1,0 +1,43 @@
+pipe2me(1) -- manage tunnels to a pipe2me server
+================================================
+
+## SYNOPSIS
+
+`pipe2me` setup ...<br>
+
+## DESCRIPTION
+
+**pipe2me** is a client for the pipe2me server package, which hels tunnels
+TCP connections through routers.
+
+## FILES
+
+**pipe2me** manages a set of tunnels, with a common FQDN (fully qualified 
+domain name) in a single directory.
+
+## OPTIONS
+
+These options control the pipe2me operations.
+
+  * `-v`, `--version`:
+    Show pipe2me version and exit.
+
+
+## EXAMPLES
+
+Setup 3 tunnels under a specific FQDN:
+
+    $ pipe2me setup --protocols=https,http,imap
+
+## BUGS
+
+The installed version of **pipe2me** is written in Ruby. A more portable
+and version of this program - e.g. in bash - would be welcome.
+
+## COPYRIGHT
+
+**pipe2me** is Copyright (C) 2013,1024 The kinko team <https://kinko.me>
+
+## SEE ALSO
+
+ssh(1), sshd(8), autossh(1).

@@ -1,0 +1,47 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "PIPE2ME" "1" "January 2014" "" ""
+.
+.SH "NAME"
+\fBpipe2me\fR \- manage tunnels to a pipe2me server
+.
+.SH "SYNOPSIS"
+\fBpipe2me\fR setup \.\.\.
+.
+.br
+.
+.SH "DESCRIPTION"
+\fBpipe2me\fR is a client for the pipe2me server package, which hels tunnels TCP connections through routers\.
+.
+.SH "FILES"
+\fBpipe2me\fR manages a set of tunnels, with a common FQDN (fully qualified domain name) in a single directory\.
+.
+.SH "OPTIONS"
+These options control the pipe2me operations\.
+.
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+Show pipe2me version and exit\.
+.
+.SH "EXAMPLES"
+Setup 3 tunnels under a specific FQDN:
+.
+.IP "" 4
+.
+.nf
+
+$ pipe2me setup \-\-protocols=https,http,imap
+.
+.fi
+.
+.IP "" 0
+.
+.SH "BUGS"
+The installed version of \fBpipe2me\fR is written in Ruby\. A more portable and version of this program \- e\.g\. in bash \- would be welcome\.
+.
+.SH "COPYRIGHT"
+\fBpipe2me\fR is Copyright (C) 2013,1024 The kinko team \fIhttps://kinko\.me\fR
+.
+.SH "SEE ALSO"
+ssh(1), sshd(8), autossh(1)\.
