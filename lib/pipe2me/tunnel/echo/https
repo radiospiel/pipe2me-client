@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+#
+
+load "#{File.dirname(__FILE__)}/http"
+
+cert = OpenSSL::X509::Certificate.new File.read("pipe2me.openssl.cert")
+pkey = OpenSSL::PKey::RSA.new File.read("pipe2me.openssl.priv")
+
+RACK_SERVER_OPTIONS.update SSLEnable: true,
+  SSLVerifyClient:        OpenSSL::SSL::VERIFY_NONE,
+  SSLPrivateKey:          cert, 
+  SSLCertificate:         pkey,
+  SSLCertName:            [["CN", WEBrick::Utils::getservername]]
+
+if $0 == __FILE__
+  puts "Starting https server at port #{RACK_SERVER_OPTIONS[:Port]}"
+  Rack::Server.start(RACK_SERVER_OPTIONS)
+end

@@ -3,6 +3,7 @@ GEM
   specs:
     hpricot (0.8.6)
     mustache (0.99.5)
+    rack (1.5.2)
     rdiscount (2.1.7)
     ronn (0.7.3)
       hpricot (>= 0.8.2)
@@ -13,4 +14,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  rack
   ronn

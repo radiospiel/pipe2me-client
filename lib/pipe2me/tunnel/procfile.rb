@@ -5,8 +5,10 @@ module Pipe2me::Tunnel::Procfile
 
   def procfile(mode = "tunnels")
     entries = commands
+    entries += echo_commands if mode == "echo"
+
     path = "#{PROCFILE}.#{mode}"
-    File.atomic_write path, entries.join("\n")
+    File.atomic_write path, entries.compact.join("\n")
     path
   end
 
@@ -44,5 +46,22 @@ module Pipe2me::Tunnel::Procfile
 
   def uncomment(cmd)
     cmd.gsub(/( *#.*|\s+)/, " ").gsub(/(^ )|( $)/, "")
+  end
+
+  def echo_commands
+    tunnel_uri = URI.parse config.tunnel
+
+    tunnels.map do |protocol, remote_port, local_port|
+      next unless cmd = echo_server(protocol, local_port)
+      "echo_#{remote_port}: #{cmd}"
+    end
+  end
+
+  def echo_server(protocol, port)
+    binary = File.dirname(__FILE__) + "/echo/#{protocol}"
+    return unless File.executable?(binary)
+
+    UI.info "Starting #{protocol} echo server on port #{port}"
+    "env PORT=#{port} #{binary}"
   end
 end

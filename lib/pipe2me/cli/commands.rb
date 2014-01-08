@@ -28,4 +28,10 @@ module Pipe2me::CLI
     runner = File.dirname(__FILE__) + "/../../vendor/pipe2me-runner"
     Kernel.exec runner, Pipe2me::Tunnel::procfile
   end
+
+  banner "Start tunnels in echo mode"
+  def echo
+    runner = File.dirname(__FILE__) + "/../../vendor/pipe2me-runner"
+    Kernel.exec runner, Pipe2me::Tunnel::procfile("echo")
+  end
 end
