@@ -19,9 +19,14 @@ domain name) in a single directory.
 
 These options control the pipe2me operations.
 
-  * `-v`, `--version`:
-    Show pipe2me version and exit.
-
+  * `-h`, `--help`:
+    Show pipe2me help information and exit.
+  * `-v`, `--verbose`:
+    Be more verbose.
+  * `-q`, `--quiet`:
+    Be more quiet.
+  * `-s`, `--silent`:
+    Be absolutely silent.
 
 ## EXAMPLES
 
