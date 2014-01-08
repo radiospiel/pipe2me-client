@@ -83,13 +83,21 @@
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
-<p><strong>pipe2me</strong> is a client for the pipe2me server package, which hels tunnels
+<p><strong>pipe2me</strong> is a client for the pipe2me server package, which helps tunnel
 TCP connections through routers.</p>
 
 <h2 id="FILES">FILES</h2>
 
 <p><strong>pipe2me</strong> manages a set of tunnels, with a common FQDN (fully qualified
-domain name) in a single directory.</p>
+domain name) in a single directory. This directory contains these files:</p>
+
+<ul>
+<li><em>pipe2me.id_rsa</em>: the SSH public key</li>
+<li><em>pipe2me.id_rsa.pub</em>: the SSH private key</li>
+<li><em>pipe2me.info.inc</em>: settings managed by the pipe2me server</li>
+<li><em>pipe2me.local.inc</em>: settings managed by the client</li>
+</ul>
+
 
 <h2 id="OPTIONS">OPTIONS</h2>
 

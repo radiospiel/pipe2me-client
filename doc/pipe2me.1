@@ -15,10 +15,24 @@
 .br
 .
 .SH "DESCRIPTION"
-\fBpipe2me\fR is a client for the pipe2me server package, which hels tunnels TCP connections through routers\.
+\fBpipe2me\fR is a client for the pipe2me server package, which helps tunnel TCP connections through routers\.
 .
 .SH "FILES"
-\fBpipe2me\fR manages a set of tunnels, with a common FQDN (fully qualified domain name) in a single directory\.
+\fBpipe2me\fR manages a set of tunnels, with a common FQDN (fully qualified domain name) in a single directory\. This directory contains these files:
+.
+.IP "\(bu" 4
+\fIpipe2me\.id_rsa\fR: the SSH public key
+.
+.IP "\(bu" 4
+\fIpipe2me\.id_rsa\.pub\fR: the SSH private key
+.
+.IP "\(bu" 4
+\fIpipe2me\.info\.inc\fR: settings managed by the pipe2me server
+.
+.IP "\(bu" 4
+\fIpipe2me\.local\.inc\fR: settings managed by the client
+.
+.IP "" 0
 .
 .SH "OPTIONS"
 These options control the pipe2me operations\.

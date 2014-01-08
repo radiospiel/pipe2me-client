@@ -8,13 +8,18 @@ pipe2me(1) -- manage tunnels to a pipe2me server
 
 ## DESCRIPTION
 
-**pipe2me** is a client for the pipe2me server package, which hels tunnels
+**pipe2me** is a client for the pipe2me server package, which helps tunnel
 TCP connections through routers.
 
 ## FILES
 
 **pipe2me** manages a set of tunnels, with a common FQDN (fully qualified
-domain name) in a single directory.
+domain name) in a single directory. This directory contains these files:
+
+  * *pipe2me.id_rsa*: the SSH public key
+  * *pipe2me.id_rsa.pub*: the SSH private key
+  * *pipe2me.info.inc*: settings managed by the pipe2me server
+  * *pipe2me.local.inc*: settings managed by the client
 
 ## OPTIONS
 

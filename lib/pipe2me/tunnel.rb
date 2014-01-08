@@ -27,4 +27,40 @@ module Pipe2me::Tunnel
 
     server_info
   end
+
+  private
+
+  # The base URL for this tunnels' configuration
+  def url
+    server, token = settings.values_at :server, :token
+    "#{server}/subdomains/#{token}"
+  end
+
+  def settings
+    @settings ||= {}.tap do |hsh|
+      hsh.update ShellFormat.read("pipe2me.info.inc")
+      hsh.update ShellFormat.read("pipe2me.local.inc")
+    end
+  end
+
+  public
+
+  def update
+    unless File.exists?("pipe2me.id_rsa")
+      ssh_keygen
+    end
+  end
+
+  private
+
+  def ssh_keygen
+    fqdn = settings[:fqdn]
+    system "ssh-keygen -t rsa -N '' -C #{fqdn} -f pipe2me.id_rsa >&2"
+    system "chmod 600 pipe2me.id_rsa*"
+    HTTP.post!("#{url}/id_rsa.pub", File.read("pipe2me.id_rsa.pub"), {'Content-Type' =>'text/plain'})
+  rescue
+    FileUtils.rm_rf "pipe2me.id_rsa"
+    FileUtils.rm_rf "pipe2me.id_rsa.pub"
+    raise
+  end
 end

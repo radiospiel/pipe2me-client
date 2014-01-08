@@ -8,7 +8,7 @@ module Pipe2me::CLI
     Pipe2me::Config.server = options[:server]
     server_info = Pipe2me::Tunnel.setup options
 
-    # update server_info[:fqdn]
+    update
     puts server_info[:fqdn]
   end
 
@@ -16,5 +16,10 @@ module Pipe2me::CLI
   def env(*args)
     puts File.read("pipe2me.local.inc")
     puts File.read("pipe2me.info.inc")
+  end
+
+  banner "Updates configuration"
+  def update
+    Pipe2me::Tunnel.update
   end
 end

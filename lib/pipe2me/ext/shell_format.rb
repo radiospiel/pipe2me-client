@@ -8,6 +8,10 @@ module Pipe2me::ShellFormat
     File.atomic_write path, dump(data)
   end
 
+  def read(path)
+    parse File.read(path)
+  end
+
   def dump(obj, prefix=nil)
     format_entries([], obj, prefix).join
   end
