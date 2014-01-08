@@ -31,6 +31,7 @@ module Pipe2me::Sys
       map { |arg| Shellwords.escape arg.to_s }.
       join(" ")
 
+    UI.debug cmd
     stdout = IO.popen(cmd, &:read)
     [ cmd, stdout ]
   end
