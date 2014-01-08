@@ -13,6 +13,12 @@
 \fBpipe2me\fR [ options ] env
 .
 .br
+\fBpipe2me\fR [ options ] start
+.
+.br
+\fBpipe2me\fR [ options ] echo
+.
+.br
 .
 .SH "DESCRIPTION"
 \fBpipe2me\fR is a client for the pipe2me server package, which helps tunnel TCP connections through routers\.
@@ -37,6 +43,9 @@
 .
 .IP "\(bu" 4
 \fIpipe2me\.openssl\.priv\fR: openssl private key
+.
+.IP "\(bu" 4
+\fIpipe2me\.procfile\.tunnels\fR: procfile to run tunnels
 .
 .IP "" 0
 .
@@ -127,6 +136,33 @@ PIPE2ME_URLS_0=https://handsome\-snowwhite\-hamster\.pipe2\.dev:10049
 PIPE2ME_TUNNEL=ssh://eno@pipe2\.dev:4444
 .
 .fi
+.
+.SH "START TUNNELS"
+\fBpipe2me\fR start
+.
+.br
+.
+.P
+starts all configured tunnels
+.
+.SH "TEST TUNNELS"
+\fBpipe2me\fR test
+.
+.br
+.
+.P
+starts all configured tunnels and, whereever available, an echo server on the local machine\. This command is intended for testing\.
+.
+.P
+echo servers are currently supported for these protocols:
+.
+.IP "\(bu" 4
+http
+.
+.IP "\(bu" 4
+https
+.
+.IP "" 0
 .
 .SH "BUGS"
 The installed version of \fBpipe2me\fR is written in Ruby\. A more portable and version of this program \- e\.g\. in bash \- would be welcome\.

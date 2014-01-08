@@ -60,6 +60,8 @@
     <a href="#OPTIONS">OPTIONS</a>
     <a href="#TUNNEL-SETUP">TUNNEL SETUP</a>
     <a href="#SHOW-TUNNEL-SETTINGS">SHOW TUNNEL SETTINGS</a>
+    <a href="#START-TUNNELS">START TUNNELS</a>
+    <a href="#TEST-TUNNELS">TEST TUNNELS</a>
     <a href="#BUGS">BUGS</a>
     <a href="#COPYRIGHT">COPYRIGHT</a>
     <a href="#SEE-ALSO">SEE ALSO</a>
@@ -79,7 +81,9 @@
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
 <p><code>pipe2me</code> [ options ] setup ...<br />
-<code>pipe2me</code> [ options ] env<br /></p>
+<code>pipe2me</code> [ options ] env<br />
+<code>pipe2me</code> [ options ] start<br />
+<code>pipe2me</code> [ options ] echo<br /></p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -98,6 +102,7 @@ domain name) in a single directory. This directory contains these files:</p>
 <li><em>pipe2me.local.inc</em>: settings managed by the client</li>
 <li><em>pipe2me.openssl.cert</em>: openssl certificate</li>
 <li><em>pipe2me.openssl.priv</em>: openssl private key</li>
+<li><em>pipe2me.procfile.tunnels</em>: procfile to run tunnels</li>
 </ul>
 
 
@@ -156,6 +161,27 @@ PIPE2ME_FQDN=handsome-snowwhite-hamster.pipe2.dev
 PIPE2ME_URLS_0=https://handsome-snowwhite-hamster.pipe2.dev:10049
 PIPE2ME_TUNNEL=ssh://eno@pipe2.dev:4444
 </code></pre>
+
+<h2 id="START-TUNNELS">START TUNNELS</h2>
+
+<p><code>pipe2me</code> start<br /></p>
+
+<p>starts all configured tunnels</p>
+
+<h2 id="TEST-TUNNELS">TEST TUNNELS</h2>
+
+<p><code>pipe2me</code> test<br /></p>
+
+<p>starts all configured tunnels and, whereever available, an echo server on
+the local machine. This command is intended for testing.</p>
+
+<p>echo servers are currently supported for these protocols:</p>
+
+<ul>
+<li>http</li>
+<li>https</li>
+</ul>
+
 
 <h2 id="BUGS">BUGS</h2>
 

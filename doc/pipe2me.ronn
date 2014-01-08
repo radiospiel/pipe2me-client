@@ -5,6 +5,8 @@ pipe2me(1) -- manage tunnels to a pipe2me server
 
 `pipe2me` [ options ] setup ...<br>
 `pipe2me` [ options ] env<br>
+`pipe2me` [ options ] start<br>
+`pipe2me` [ options ] echo<br>
 
 ## DESCRIPTION
 
@@ -22,6 +24,7 @@ domain name) in a single directory. This directory contains these files:
   * *pipe2me.local.inc*: settings managed by the client
   * *pipe2me.openssl.cert*: openssl certificate
   * *pipe2me.openssl.priv*: openssl private key
+  * *pipe2me.procfile.tunnels*: procfile to run tunnels
 
 ## OPTIONS
 
@@ -74,6 +77,24 @@ shows the tunnel configuration in the current directory.
     PIPE2ME_FQDN=handsome-snowwhite-hamster.pipe2.dev
     PIPE2ME_URLS_0=https://handsome-snowwhite-hamster.pipe2.dev:10049
     PIPE2ME_TUNNEL=ssh://eno@pipe2.dev:4444
+
+## START TUNNELS
+
+`pipe2me` start<br>
+
+starts all configured tunnels
+
+## TEST TUNNELS
+
+`pipe2me` test<br>
+
+starts all configured tunnels and, whereever available, an echo server on
+the local machine. This command is intended for testing.
+
+echo servers are currently supported for these protocols:
+
+- http
+- https
 
 ## BUGS
 
