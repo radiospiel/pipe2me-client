@@ -37,6 +37,7 @@ module Pipe2me::Tunnel::Procfile
         -R 0.0.0.0:#{remote_port}:localhost:#{local_port}
         -i #{SSH_PRIVKEY}
         -o StrictHostKeyChecking=no
+        -o UserKnownHostsFile=pipe2me.known_hosts
         -N
       SHELL
 
