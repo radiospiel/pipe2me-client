@@ -114,11 +114,23 @@ following formats are supported:
 
 Support for exports is supplied via [foreman](http://ddollar.github.io/foreman/).
 
-
 ## BUGS
 
 The installed version of **pipe2me** is written in Ruby. A more portable
 and version of this program - e.g. in bash - would be welcome.
+
+## LIMITATIONS
+
+When you create a HTTPS tunnel on a server with a name pinkbunny.pipe2.server, which
+ends up at port 1337, the server redirects all connections that arrive at the HTTPS
+default port (443) to pinkbunny.pipe2.server:1337. This is a convinience feature, but
+it encrypts this connection step using a wildcard certificate for `*.pipe2.server`.
+This means that the initial request - including and other potentially relevant information -
+could be read by the pipe2me server, and is a limitation of the involved protocols.
+
+If you are concerned don't use this feature, but use the correct domain name **and port**
+from the go. If you rely on this feature we recommend at least to transfer cookies only on
+subdirectories.
 
 ## COPYRIGHT
 
