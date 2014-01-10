@@ -8,8 +8,8 @@ pkey = OpenSSL::PKey::RSA.new File.read("pipe2me.openssl.priv")
 
 RACK_SERVER_OPTIONS.update SSLEnable: true,
   SSLVerifyClient:        OpenSSL::SSL::VERIFY_NONE,
-  SSLPrivateKey:          cert, 
-  SSLCertificate:         pkey,
+  SSLPrivateKey:          pkey, 
+  SSLCertificate:         cert,
   SSLCertName:            [["CN", WEBrick::Utils::getservername]]
 
 if $0 == __FILE__
