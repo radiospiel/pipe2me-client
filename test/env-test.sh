@@ -1,21 +1,11 @@
 #!/usr/bin/env roundup
 # `describe` the plan meaningfully.
 
-pipe2me=$(cd $(dirname $1)/../bin && pwd)/pipe2me
-
-before() {
-  mkdir scrub
-  cd scrub
-}
-
-after() {
-  cd ..
-  rm -rf scrub
-}
+. $(dirname $1)/testhelper.inc
 
 describe "show pipe2me environment"
 it_start_a_tunnel() {
-  fqdn=$($pipe2me setup)
+  fqdn=$($pipe2me setup --server $pipe2me_server)
   $pipe2me env > env
   echo "== env is ============="
   cat env

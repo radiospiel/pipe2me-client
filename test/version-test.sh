@@ -1,6 +1,6 @@
 #!/usr/bin/env roundup
 # `describe` the plan meaningfully.
-pipe2me=$(cd $(dirname $1)/../bin && pwd)/pipe2me
+. $(dirname $1)/testhelper.inc
 
 describe "-h shows help"
 

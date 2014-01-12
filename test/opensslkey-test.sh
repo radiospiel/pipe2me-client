@@ -1,21 +1,11 @@
 #!/usr/bin/env roundup
 # `describe` the plan meaningfully.
 
-pipe2me=$(cd $(dirname $1)/../bin && pwd)/pipe2me
-
-before() {
-  mkdir scrub
-  cd scrub
-}
-
-after() {
-  cd ..
-  rm -rf scrub
-}
+. $(dirname $1)/testhelper.inc
 
 describe "setup creates and signs openssl credentials"
 it_sets_up_openssl_certs() {
-  fqdn=$($pipe2me setup)
+  fqdn=$($pipe2me setup --server $pipe2me_server)
   test -f pipe2me.openssl.priv
   cat pipe2me.openssl.priv | grep "BEGIN RSA PRIVATE KEY"
 
