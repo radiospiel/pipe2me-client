@@ -1,7 +1,7 @@
 module Pipe2me::CLI
   banner "fetch a new tunnel setup"
   option :server, "Use pipe2.me server on that host", :default => "http://test.pipe2.me:8080"
-  option :auth, "pipe2.me auth token",  :type => String, :default => "pipe2-dev-token"
+  option :auth, "pipe2.me auth token",  :type => String, :required => true
   option :protocols, "protocol names, e.g. 'http,https,imap'", :type => String, :default => "https"
   option :local_ports, "local ports, one per protocol", :type => String
   def setup
