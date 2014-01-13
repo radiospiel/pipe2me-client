@@ -4,6 +4,10 @@ pipe2me=$(cd $(dirname $1)/../bin && pwd)/pipe2me
 
 # Load test scenario settings
 echo "Load $TEST_ENV test settings"
+if [ -z "$TEST_ENV" ]; then
+  TEST_ENV=debug
+fi
+
 . $(dirname $1)/testhelper.${TEST_ENV}
 
 # A temporary workspace to run tests.
