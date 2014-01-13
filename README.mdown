@@ -1,20 +1,94 @@
 # pipe2me client
 
 This is the ruby client for the pipe2me server package.
+The pipe2me client lets you publish local services to the public internet
+with the help and orchestration of a pipe2me server. For more details
+see [pipe2me](https://github.com/kinko/pipe2me)
+
+## Installation
+
+    gem install pipe2me-client
+    # optional: install man page
+    sudo rake install
+
+## Usage
+
+Mini-example: This registers two tunnels with a single hostname for
+two services on localhost (http on port 9090, https on port 9091).
+
+    # Setup tunnels. This responds with the domain name
+    > ./bin/pipe2me setup -p http,https --server http://pipe2.me --auth-token 123 --local-ports 9090,9091
+    pretty-ivory-horse.test.pipe2.me
+
+    # Review the assigned URLs:
+    > cat pipe2me.info.inc | grep URL
+    PIPE2ME_URLS_0=http://pretty-ivory-horse.test.pipe2.me:10003
+    PIPE2ME_URLS_1=https://pretty-ivory-horse.test.pipe2.me:10004
+
+    # Start the tunnels
+    > /bin/pipe2me start
+
+See also the [example session](http://test.pipe2.me/example_session.html)
+and the [man page](http://test.pipe2.me/pipe2me.1.html).
 
 ## Testing
 
-You must install
-[roundup](https://github.com/bmizerany/roundup/blob/master/INSTALLING#files) to run the tests:
+Tests are implemented using
+[roundup](https://github.com/bmizerany/roundup/blob/master/INSTALLING#files).
+To install roundup on OSX, run `brew install roundup`. Other systems are
+supported as well, compare roundup's documentation for details.
 
-    # on a mac. See roundup readme for non macs
-    brew install roundup
+The implemented tests are *integration tests* in the sense, that they test the
+behaviour of the *pipe2me-client* package in connection to an external pipe2me
+server. That means you should run a pipe2me server on your local machine. Note
+that the server must be configured to support test mode. (In test mode a pipe2me
+server accepts test auth tokens, that create short lived tunnels
+with self-signed certificates.)
 
-Then you can run tests by executing `rake`.
+To run the tests against a locally installed test server run `rake`. Note that
+the local test server is expected at "pipe2.dev:8080". You might have to adjust
+the `/etc/hosts` file to add an entry
+
+    127.0.0.1    pipe2.dev
+
+Before submitting a pull request you should also run a test against the
+test.pipe2.me instance, which is available most of the time for that purpose.
+To do that, run `rake test:release`.
+
+## Auth tokens
+
+As ports and domain names are sparse resources the pipe2me server API
+requires the use of authorization tokens when requesting a tunnel. A
+token is similar to a currency in that it describes which tunnels are
+supported. This could limit the number of tunneled ports, the traffic
+for those ports, whether or not a certificate is self-signed or signed
+by a regular CA, etc.
+
+The features of a token are not defined within this protocol. However,
+there has to be one. Contact the administrator of the pipe2me server
+to know more.
+
+### Auth tokens on test.pipe2.me
+
+The test.pipe2.me server is configured to use some public tokens.
+
+- a test token: this builds tunnels that are available for 5 minutes.
+  The test token is intended for use with automated test scenarios.
+  The current test token is `test@test.kinko.me`.
+- a review token: this builds tunnels that are available for up to
+  one day. A review token is intended for get a feel for the pipe2me
+  package. The current review token is `review@test.kinko.me`.
+
+If you need a longer lived token for development, review and/or test
+feel free to contact us at contact@kinko.me.
+
+If you want to use pipe2me for any practical purpose consider
+signing up at https://pipe2.me, which should be online end of January.
 
 ## Licensing
 
-**The pipe2me client software** is (c) The Kinko Team, 2014 and released to you under the terms of the MIT License (MIT), see COPYING.MIT for details.
+**The pipe2me client software** is (c) The Kinko Team, 2014 and released to you
+under the terms of the MIT License (MIT), see COPYING.MIT for details.
 
 The subdirectory lib/vendor contains third-party code, which is subject to its own copyrights.
 Please see the respective source files for copyright information.
