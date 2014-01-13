@@ -22,3 +22,8 @@ end
 task :install do
   system "sudo cp doc/pipe2me.1 /usr/local/share/man/man1"
 end
+
+# Add "rake release and rake install"
+require "bundler/setup"
+
+Bundler::GemHelper.install_tasks
