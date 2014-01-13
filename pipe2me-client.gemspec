@@ -38,5 +38,5 @@ Gem::Specification.new do |gem|
   gem.description = gem.summary
   gem.load_dependencies "Gemfile"
 
-  gem.files = Dir["**/*"].select { |d| d =~ %r{^(README|bin/|data/|ext/|lib/|spec/|test/)} }
+  gem.files = Dir["**/*"].select { |d| d =~ %r{^(README|rakelib/|bin/|data/|ext/|lib/|spec/|test/)} }
 end
