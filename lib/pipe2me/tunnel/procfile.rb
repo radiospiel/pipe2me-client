@@ -4,8 +4,9 @@ module Pipe2me::Tunnel::Procfile
   SSH_PRIVKEY = Pipe2me::Tunnel::SSH_PRIVKEY
 
   def procfile(mode = "tunnels")
-    entries = commands
-    entries += echo_commands if mode == "echo"
+    entries = commands(mode).map do |name, cmd|
+      "#{name}: #{cmd}"
+    end
 
     path = "#{PROCFILE}.#{mode}"
     File.atomic_write path, entries.compact.join("\n")
@@ -24,41 +25,50 @@ module Pipe2me::Tunnel::Procfile
     end
   end
 
-  def commands
+  # return an arry [ [name, command ], [name, command ], .. ]
+  def commands(mode = "tunnel")
     tunnel_uri = URI.parse config.tunnel
 
-    tunnels.map do |protocol, remote_port, local_port|
-      cmd = <<-SHELL
-        env AUTOSSH_GATETIME=0                                # comments work here..
-        autossh
-        -M 0
-        #{tunnel_uri.user}@#{tunnel_uri.host}
-        -p #{tunnel_uri.port}
-        -R 0.0.0.0:#{remote_port}:localhost:#{local_port}
-        -i #{SSH_PRIVKEY}
-        -o StrictHostKeyChecking=no
-        -o UserKnownHostsFile=pipe2me.known_hosts
-        -N
-      SHELL
+    commands = []
 
-      "#{protocol}_#{remote_port}: #{uncomment cmd}"
+    # add commands for port tunnels
+    tunnels.each do |protocol, remote_port, local_port|
+      next unless cmd = port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
+      commands << [ "#{protocol}_#{remote_port}", cmd ]
     end
+
+    # add commands for echo servers
+    if mode == "echo"
+      tunnels.each do |protocol, remote_port, local_port|
+        next unless cmd = echo_server_command(protocol, local_port)
+        commands << [ "echo_#{remote_port}", cmd ]
+      end
+    end
+
+    commands
   end
 
-  def uncomment(cmd)
+  def port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
+    autossh = `which autossh`.chomp
+
+    cmd = <<-SHELL
+      env AUTOSSH_GATETIME=0                                # comments work here..
+      #{autossh}
+      -M 0
+      #{tunnel_uri.user}@#{tunnel_uri.host}
+      -p #{tunnel_uri.port}
+      -R 0.0.0.0:#{remote_port}:localhost:#{local_port}
+      -i #{SSH_PRIVKEY}
+      -o StrictHostKeyChecking=no
+      -o UserKnownHostsFile=pipe2me.known_hosts
+      -N
+    SHELL
+
+    # remove comments and newlines from commands
     cmd.gsub(/( *#.*|\s+)/, " ").gsub(/(^ )|( $)/, "")
   end
 
-  def echo_commands
-    tunnel_uri = URI.parse config.tunnel
-
-    tunnels.map do |protocol, remote_port, local_port|
-      next unless cmd = echo_server(protocol, local_port)
-      "echo_#{remote_port}: #{cmd}"
-    end
-  end
-
-  def echo_server(protocol, port)
+  def echo_server_command(protocol, port)
     binary = File.dirname(__FILE__) + "/echo/#{protocol}"
     return unless File.executable?(binary)
 

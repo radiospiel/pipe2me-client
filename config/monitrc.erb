@@ -1,0 +1,14 @@
+<% 
+  daemon_bin = `which daemon`.chomp 
+  DAEMON = "#{daemon_bin} -D #{File.expand_path(Dir.getwd)}"
+%>
+
+set daemon 10 
+set httpd port 5500 and use address localhost allow localhost
+
+<% Pipe2me::Tunnel.commands.each do |name, cmd| %>
+check process <%= name %> with pidfile <%= PIDDIR %>/<%= name %>.pid
+  <% daemon = "#{DAEMON} -N --name #{name} --pidfiles #{PIDDIR} --output #{LOGDIR}/#{name}.log" %>
+  start program = "<%= daemon %> -- <%= cmd %>" with timeout 60 seconds
+  stop program = "<%= daemon %> --stop"
+<% end %>
