@@ -33,7 +33,7 @@ module Pipe2me::Tunnel
     end
 
     # [todo] escape auth option
-    response = HTTP.post! "#{Pipe2me::Config.server}/subdomains/#{options[:auth]}",
+    response = HTTP.post! "#{Pipe2me::Config.server}/tunnels/#{options[:auth]}",
       "protocols" => options[:protocols]
 
     server_info = ShellFormat.parse(response)
@@ -52,7 +52,7 @@ module Pipe2me::Tunnel
 
   # The base URL for this tunnels' configuration
   def url
-    "#{config.server}/subdomains/#{config.token}"
+    "#{config.server}/tunnels/#{config.token}"
   end
 
   def config
