@@ -6,3 +6,4 @@ end
 
 gem "rack"
 gem "thor"
+gem "simple-ui", "~> 0.2.1"
