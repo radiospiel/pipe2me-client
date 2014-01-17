@@ -1,9 +1,9 @@
 #!/usr/bin/env roundup
-# `describe` the plan meaningfully.
+describe "openssl tests"
 
 . $(dirname $1)/testhelper.inc
 
-describe "setup creates and signs openssl credentials"
+# setup creates and signs openssl credentials
 it_sets_up_openssl_certs() {
   fqdn=$($pipe2me setup --server $pipe2me_server --auth $pipe2me_token)
   test -f pipe2me.openssl.priv
@@ -16,14 +16,10 @@ it_sets_up_openssl_certs() {
   openssl x509 -in pipe2me.openssl.cert  -text | grep CN=$fqdn
 }
 
-describe "A certificate cannot be used to sign other certificates"
 it_cannot_sign_other_certs() {
-  echo "TODO"
-  false
+  false [TODO] A certificate cannot be used to sign other certificates
 }
 
-describe "A client cannot ask the server to sign certs with different names"
 it_cannot_sign_fake_certs() {
-  echo "TODO"
-  false
+  false [TODO] A client cannot ask the server to sign certs with different names
 }

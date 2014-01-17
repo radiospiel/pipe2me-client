@@ -1,9 +1,8 @@
 #!/usr/bin/env roundup
-# `describe` the plan meaningfully.
+describe "show pipe2me environment"
 
 . $(dirname $1)/testhelper.inc
 
-describe "show pipe2me environment"
 it_start_a_tunnel() {
   fqdn=$($pipe2me setup --server $pipe2me_server --auth $pipe2me_token)
   $pipe2me env > env
