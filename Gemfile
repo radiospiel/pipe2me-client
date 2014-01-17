@@ -5,5 +5,4 @@ group :development do
 end
 
 gem "rack"
-gem "foreman"
-gem "foreman-export-initscript"
+gem "thor"
