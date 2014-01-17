@@ -1,1 +1,8 @@
-var
+pkg
+.DS_Store
+.bundle
+.ruby-version
+
+# If you run pipe2me locally, this will create a number of test files. 
+# They all start with "pipe2me.", and must not be added to the repository.
+/pipe2me.*
