@@ -1,6 +1,8 @@
 require "thor"
 
 class Pipe2me::CLI < Thor
+  def self.exit_on_failure?; true; end
+
   desc "setup", "fetch a new tunnel setup"
   option :server, :default => "http://test.pipe2.me:8080"
   option :auth, :required => true                     # "auth token"
