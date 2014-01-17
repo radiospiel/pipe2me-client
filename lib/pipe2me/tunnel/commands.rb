@@ -1,17 +1,9 @@
-module Pipe2me::Tunnel::Procfile
-  PROCFILE    = Pipe2me::Tunnel::PROCFILE
-  SSH_PUBKEY  = Pipe2me::Tunnel::SSH_PUBKEY
-  SSH_PRIVKEY = Pipe2me::Tunnel::SSH_PRIVKEY
+module Pipe2me::Tunnel::Commands
+  extend self
 
-  def procfile(mode = "tunnels")
-    entries = commands(mode).map do |name, cmd|
-      "#{name}: #{cmd}"
-    end
+  T = Pipe2me::Tunnel
 
-    path = "#{PROCFILE}.#{mode}"
-    File.atomic_write path, entries.compact.join("\n")
-    path
-  end
+  private
 
   # returns an array of [ protocol, remote_port, local_port ] entries
   def tunnels
@@ -25,28 +17,26 @@ module Pipe2me::Tunnel::Procfile
     end
   end
 
+  public
+
   # return an arry [ [name, command ], [name, command ], .. ]
-  def commands(mode = "tunnel")
+  def tunnel_commands
     tunnel_uri = URI.parse config.tunnel
 
-    commands = []
-
-    # add commands for port tunnels
-    tunnels.each do |protocol, remote_port, local_port|
+    tunnels.map do |protocol, remote_port, local_port|
       next unless cmd = port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
-      commands << [ "#{protocol}_#{remote_port}", cmd ]
-    end
-
-    # add commands for echo servers
-    if mode == "echo"
-      tunnels.each do |protocol, remote_port, local_port|
-        next unless cmd = echo_server_command(protocol, local_port)
-        commands << [ "echo_#{remote_port}", cmd ]
-      end
-    end
-
-    commands
+      [ "#{protocol}_#{remote_port}", cmd ]
+    end.compact
   end
+
+  def echo_commands
+    tunnels.map do |protocol, remote_port, local_port|
+      next unless cmd = echo_server_command(protocol, local_port)
+      [ "echo_#{remote_port}", cmd ]
+    end.compact
+  end
+
+  private
 
   def port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
     autossh = `which autossh`.chomp
@@ -58,7 +48,7 @@ module Pipe2me::Tunnel::Procfile
       #{tunnel_uri.user}@#{tunnel_uri.host}
       -p #{tunnel_uri.port}
       -R 0.0.0.0:#{remote_port}:localhost:#{local_port}
-      -i #{SSH_PRIVKEY}
+      -i #{T::SSH_PRIVKEY}
       -o StrictHostKeyChecking=no
       -o UserKnownHostsFile=pipe2me.known_hosts
       -N

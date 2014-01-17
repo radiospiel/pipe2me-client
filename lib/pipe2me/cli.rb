@@ -29,13 +29,32 @@ class Pipe2me::CLI < Thor
 
   desc "start", "Start tunnels"
   def start
-    runner = File.dirname(__FILE__) + "/../../vendor/pipe2me-runner"
-    Kernel.exec runner, Pipe2me::Tunnel::procfile
+    procfile = "pipe2me.procfile"
+
+    commands = Pipe2me::Tunnel.tunnel_commands
+    write_procfile procfile, commands
+
+    Kernel.exec "foreman start -f #{procfile}"
   end
 
   desc "echo", "Start tunnels in echo mode"
   def echo
-    runner = File.dirname(__FILE__) + "/../../vendor/pipe2me-runner"
-    Kernel.exec runner, Pipe2me::Tunnel::procfile("echo")
+    procfile = "pipe2me.procfile.echo"
+
+    commands = Pipe2me::Tunnel.tunnel_commands
+    commands += Pipe2me::Tunnel.echo_commands
+    write_procfile procfile, commands
+
+    Kernel.exec "foreman start -f #{procfile}"
+  end
+
+  private
+
+  def write_procfile(path, cmds)
+    File.atomic_write path do |io|
+      cmds.each do |name, cmd|
+        io.write "#{name}: #{cmd}\n"
+      end
+    end
   end
 end

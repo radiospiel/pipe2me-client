@@ -4,7 +4,7 @@ class File
   def self.atomic_write(path, data=nil, &block)
     tmpfile = Tempfile.new(File.basename(path))
     tmpfile.write data if data
-    data = block && yield
+    yield(tmpfile) if block
     tmpfile.write data if data
     tmpfile.close
     FileUtils.mv tmpfile.path, path           # atomic replace
