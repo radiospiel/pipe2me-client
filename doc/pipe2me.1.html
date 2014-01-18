@@ -85,8 +85,7 @@
 <p><code>pipe2me</code> [ options ] setup ...<br />
 <code>pipe2me</code> [ options ] env<br />
 <code>pipe2me</code> [ options ] start<br />
-<code>pipe2me</code> [ options ] monit ...<br />
-<code>pipe2me</code> [ options ] monitrc ...<br /></p>
+<code>pipe2me</code> [ options ] monit ...<br /></p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -172,12 +171,14 @@ in order to use the following commands.</p>
 
 <p><code>pipe2me</code> monitrc [ --port &lt;control-port&gt; ]<br /></p>
 
-<p>creates a configuration file with commands for all tunnels.</p>
+<p>creates a configuration file <em>pipe2me.monitrc</em> which controls all tunnels. This
+command also supports the <code>--echo</code> option which includes echo servers in the
+monitrc file.</p>
 
-<p><code>pipe2me</code> monit [ arguments ]<br /></p>
+<p><code>pipe2me</code> monit [ --port &lt;control-port&gt; ] [ arguments ]<br /></p>
 
 <p>recreates the monit configuration file and run monit against that. Note that this
-command is identical to <code>pipe2me monitrc &amp;&amp; monit -c pipe2me.monitrc ...</code> – once
+command is identical to <code>pipe2me monitrc &amp;&amp; monit -c pipe2me.monitrc ...</code> - once
 you created the monitrc control file you could use the latter for faster startup
 times.</p>
 

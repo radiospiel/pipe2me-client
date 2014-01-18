@@ -7,7 +7,6 @@ pipe2me(1) -- manage tunnels to a pipe2me server
 `pipe2me` [ options ] env<br>
 `pipe2me` [ options ] start<br>
 `pipe2me` [ options ] monit ...<br>
-`pipe2me` [ options ] monitrc ...<br>
 
 ## DESCRIPTION
 
@@ -86,12 +85,14 @@ in order to use the following commands.
 
 `pipe2me` monitrc [ --port &lt;control-port&gt; ]<br>
 
-creates a configuration file with commands for all tunnels.
+creates a configuration file *pipe2me.monitrc* which controls all tunnels. This
+command also supports the `--echo` option which includes echo servers in the
+monitrc file.
 
-`pipe2me` monit [ arguments ]<br>
+`pipe2me` monit [ --port &lt;control-port&gt; ] [ arguments ]<br>
 
 recreates the monit configuration file and run monit against that. Note that this
-command is identical to `pipe2me monitrc && monit -c pipe2me.monitrc ... ` – once
+command is identical to `pipe2me monitrc && monit -c pipe2me.monitrc ... ` - once
 you created the monitrc control file you could use the latter for faster startup
 times.
 

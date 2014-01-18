@@ -19,9 +19,6 @@
 \fBpipe2me\fR [ options ] monit \.\.\.
 .
 .br
-\fBpipe2me\fR [ options ] monitrc \.\.\.
-.
-.br
 .
 .SH "DESCRIPTION"
 \fBpipe2me\fR is a client for the pipe2me server package, which helps tunnel TCP connections through routers\.
@@ -154,15 +151,15 @@ The pipe2me client package comes with support for the monit(1) process manager a
 .br
 .
 .P
-creates a configuration file with commands for all tunnels\.
+creates a configuration file \fIpipe2me\.monitrc\fR which controls all tunnels\. This command also supports the \fB\-\-echo\fR option which includes echo servers in the monitrc file\.
 .
 .P
-\fBpipe2me\fR monit [ arguments ]
+\fBpipe2me\fR monit [ \-\-port <control\-port> ] [ arguments ]
 .
 .br
 .
 .P
-recreates the monit configuration file and run monit against that\. Note that this command is identical to \fBpipe2me monitrc && monit \-c pipe2me\.monitrc \.\.\.\fR – once you created the monitrc control file you could use the latter for faster startup times\.
+recreates the monit configuration file and run monit against that\. Note that this command is identical to \fBpipe2me monitrc && monit \-c pipe2me\.monitrc \.\.\.\fR \- once you created the monitrc control file you could use the latter for faster startup times\.
 .
 .SH "START TUNNELS (via foreman)"
 The pipe2me\-client comes with support for the foreman process manager\. This allows you to run tunnels without any non\-ruby software\. Due to some limitations with the foreman software this mode should only be used during development and test \- for deployment purposes you should use the monit(1) process manager (see above)\.
