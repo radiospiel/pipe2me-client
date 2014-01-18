@@ -1,5 +1,6 @@
 require "net/http"
 require "ostruct"
+require "forwardable"
 
 # The HTTP module implements a simple wrapper around Net::HTTP, intended to
 # ease the pain of dealing with HTTP requests.
@@ -19,12 +20,11 @@ module Pipe2me::HTTP
       @response = response
     end
 
-    def code
-      response.code
-    end
+    extend Forwardable
+    delegate [ :code, :url ] => :@response
 
     def message #:nodoc:
-      "#{@response.response.class}: #{@response[0..120]}"
+      "#{url}: #{code} #{@response[0..120]} (#{@response.response.class})"
     end
   end
 
@@ -82,7 +82,8 @@ module Pipe2me::HTTP
       (200..299).include? status
     end
 
-    # returns the response object itself, if it is valid (i.e. has a ), or raise
+    # returns the response object itself, if it is valid (i.e. has a 2XX status),
+    # or raise an Error.
     def validate!
       return self if valid?
 

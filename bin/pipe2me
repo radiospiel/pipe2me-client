@@ -10,12 +10,12 @@ begin
   Pipe2me::CLI.start ARGV
 rescue
   if UI.verbosity >= 2
-    UI.error $!
+    UI.error $!.message
     raise
   elsif UI.verbosity >= 0
-    UI.error $!
+    UI.error $!.message
   else
-    STDERR.puts $!
+    STDERR.puts $!.message
   end
   exit 1
 end
