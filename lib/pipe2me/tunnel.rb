@@ -50,7 +50,7 @@ module Pipe2me::Tunnel
 
   # The base URL for this tunnels' configuration
   def url
-    "#{config.server}/tunnels/#{config.token}"
+    "#{config.server}/tunnels/#{config.id}"
   end
 
   def config

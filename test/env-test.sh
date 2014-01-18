@@ -11,7 +11,7 @@ it_start_a_tunnel() {
   echo "== env done ============="
 
   cat env | grep PIPE2ME_SERVER
-  cat env | grep PIPE2ME_TOKEN
+  cat env | grep PIPE2ME_ID
   cat env | grep PIPE2ME_FQDN
   cat env | grep PIPE2ME_URLS_0
   cat env | grep PIPE2ME_TUNNEL
