@@ -3,8 +3,6 @@ module Pipe2me::Tunnel::Commands
 
   T = Pipe2me::Tunnel
 
-  private
-
   # returns an array of [ protocol, remote_port, local_port ] entries
   def tunnels
     @tunnels ||= begin
