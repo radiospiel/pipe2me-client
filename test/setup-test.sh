@@ -5,7 +5,7 @@ describe "tunnel setup"
 
 # setup a tunnel
 it_sets_up_tunnels() {
-  fqdn=$($pipe2me setup --server $pipe2me_server --auth $pipe2me_token)
+  fqdn=$($pipe2me setup --server $pipe2me_server --auth $pipe2me_token --ports 8100,8101 --protocols http,https)
 
   # pipe2me setup --server $pipe2me_server returns the fqdn of the subdomain and nothing else
   test 1 -eq $(echo $fqdn | wc -l)

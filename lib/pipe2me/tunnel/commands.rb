@@ -6,7 +6,7 @@ module Pipe2me::Tunnel::Commands
   # returns an array of [ protocol, remote_port, local_port ] entries
   def tunnels
     @tunnels ||= begin
-      urls, ports = config.urls, config.ports
+      urls, ports = config.urls, config.ports.to_s.split(",")
 
       urls.zip(ports).map do |url, local_port|
         uri = URI.parse(url)
