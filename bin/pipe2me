@@ -6,6 +6,11 @@ require "pipe2me/cli"
 require "pipe2me/cli-foreman"
 require "pipe2me/cli-monit"
 
+if ENV["BACKTRACE"].to_i == 1
+  Pipe2me::CLI.start ARGV
+  exit 0
+end
+
 begin
   Pipe2me::CLI.start ARGV
 rescue

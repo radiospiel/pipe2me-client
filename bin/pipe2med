@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+ENV["BACKTRACE"] = "1"
+Kernel.exec File.dirname(__FILE__) + "/pipe2me", *ARGV
