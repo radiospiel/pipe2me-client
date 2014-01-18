@@ -8,9 +8,9 @@ module Pipe2me::Tunnel::Commands
   # returns an array of [ protocol, remote_port, local_port ] entries
   def tunnels
     @tunnels ||= begin
-      urls, local_ports = config.urls, config.local_ports
+      urls, ports = config.urls, config.ports
 
-      urls.zip(local_ports).map do |url, local_port|
+      urls.zip(ports).map do |url, local_port|
         uri = URI.parse(url)
         [ uri.scheme, uri.port, local_port || uri.port ]
       end

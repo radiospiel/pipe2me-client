@@ -41,7 +41,7 @@ module Pipe2me::Tunnel
     ShellFormat.write "pipe2me.info.inc", server_info
     ShellFormat.write "pipe2me.local.inc",
                         :server => Pipe2me::Config.server,
-                        :local_ports => options[:local_ports]
+                        :ports => options[:ports]
 
     server_info
   end
@@ -55,7 +55,7 @@ module Pipe2me::Tunnel
 
   def config
     @config ||= begin
-      hsh = { :local_ports => [] }
+      hsh = { :ports => [] }
       hsh.update ShellFormat.read("pipe2me.info.inc")
       hsh.update ShellFormat.read("pipe2me.local.inc")
       OpenStruct.new hsh

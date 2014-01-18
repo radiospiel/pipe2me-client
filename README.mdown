@@ -17,7 +17,7 @@ Mini-example: This registers two tunnels with a single hostname for
 two services on localhost (http on port 9090, https on port 9091).
 
     # Setup tunnels. This responds with the domain name
-    > ./bin/pipe2me setup -p http,https --server http://pipe2.me --auth-token 123 --local-ports 9090,9091
+    > ./bin/pipe2me setup -p http,https --server http://pipe2.me --auth 123 --ports 9090,9091
     pretty-ivory-horse.test.pipe2.me
 
     # Review the assigned URLs:
@@ -25,7 +25,7 @@ two services on localhost (http on port 9090, https on port 9091).
     PIPE2ME_URLS_0=http://pretty-ivory-horse.test.pipe2.me:10003
     PIPE2ME_URLS_1=https://pretty-ivory-horse.test.pipe2.me:10004
 
-    # Start the tunnels
+    # Start the tunnels via foreman (but please review on using foreman)
     > /bin/pipe2me start
 
 See also the [example session](http://test.pipe2.me/example_session.html)
