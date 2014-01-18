@@ -9,7 +9,7 @@ see [pipe2me](https://github.com/kinko/pipe2me)
 
     gem install pipe2me-client
     # optional: install man page
-    sudo rake install
+    sudo cp doc/pipe2me.1 /usr/local/share/man/man1
 
 ## Usage
 
