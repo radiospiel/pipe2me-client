@@ -27,6 +27,11 @@ class Pipe2me::CLI < Thor
     puts File.read("pipe2me.info.inc")
   end
 
+  desc "verify", "Verify the tunnel"
+  def verify
+    Pipe2me::Tunnel.verify
+  end
+
   desc "update", "Updates configuration"
   def update
     Pipe2me::Tunnel.update

@@ -7,6 +7,7 @@ pipe2me(1) -- manage tunnels to a pipe2me server
 `pipe2me` [ options ] env<br>
 `pipe2me` [ options ] start<br>
 `pipe2me` [ options ] monit ...<br>
+`pipe2me` [ options ] verify ...<br>
 
 ## DESCRIPTION
 
@@ -69,13 +70,25 @@ Setup 3 tunnels under a specific FQDN:
 
 shows the tunnel configuration in the current directory. Example:
 
-    $ pipe2me env
-    ./bin/pipe2me env
+    $ ./bin/pipe2me env
     PIPE2ME_SERVER=http://pipe2.dev
     PIPE2ME_TOKEN=69o1ykbfzggz9lcd6qjzkggq7
     PIPE2ME_FQDN=handsome-snowwhite-hamster.pipe2.dev
     PIPE2ME_URLS_0=https://handsome-snowwhite-hamster.pipe2.dev:10049
     PIPE2ME_TUNNEL=ssh://eno@pipe2.dev:4444
+
+`pipe2me` verify<br>
+
+verify that a tunnel exists and is online. The return value is != 0 if the tunnel
+does not exist. Example:
+
+    $ ./bin/pipe2me verify
+    handsome-snowwhite-hamster.pipe2.dev
+
+or
+
+    $ ./bin/pipe2me verify
+    http://pipe2.dev:8080/tunnels/7171496237390591457/verify: 404 tunnel expired (Net::HTTPNotFound)
 
 ## MANAGE TUNNELS with monit
 
