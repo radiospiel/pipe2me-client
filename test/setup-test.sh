@@ -1,9 +1,9 @@
 #!/usr/bin/env roundup
-# `describe` the plan meaningfully.
+describe "tunnel setup"
 
 . $(dirname $1)/testhelper.inc
 
-describe "setup a tunnel"
+# setup a tunnel
 it_sets_up_tunnels() {
   fqdn=$($pipe2me setup --server $pipe2me_server --auth $pipe2me_token)
 
@@ -12,10 +12,7 @@ it_sets_up_tunnels() {
 
   # The subdomain is actually a subdomain.
   echo $fqdn | grep \.pipe2\.dev
-}
 
-describe "setup only one tunnel set per directory"
-it_sets_up_tunnels_only_once() {
-  $pipe2me setup --server $pipe2me_server --auth $pipe2me_token
+  # Cannot setup a second tunnel in the same directory.
   ! $pipe2me setup --server $pipe2me_server --auth $pipe2me_token
 }
