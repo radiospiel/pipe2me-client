@@ -1,3 +1,9 @@
+# v0.2.1: Sat Jan 18 10:06:21 2014
+
+- Adds code to automatically create changelogs [radiospiel]
+- Adds CHANGELOG.md [radiospiel]
+- Replace File.atomic_write by File.write [radiospiel]
+
 # v0.2.1: Sat Jan 18 10:03:13 2014
 
 - Adds CHANGELOG.md [radiospiel]
