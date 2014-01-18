@@ -24,6 +24,6 @@ module Pipe2me::Tunnel::OpenSSL
     cert = HTTP.post!("#{url}/cert.pem", File.read("#{SSL_KEY}.csr"), {'Content-Type' =>'text/plain'})
     UI.debug "received certificate:\n#{cert}"
 
-    File.atomic_write SSL_CERT, cert
+    File.write SSL_CERT, cert
   end
 end

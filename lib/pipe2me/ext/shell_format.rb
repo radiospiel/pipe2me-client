@@ -5,7 +5,7 @@ module Pipe2me::ShellFormat
   extend self
 
   def write(path, data)
-    File.atomic_write path, dump(data)
+    File.write path, dump(data)
   end
 
   def read(path)
