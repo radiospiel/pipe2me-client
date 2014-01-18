@@ -6,7 +6,6 @@ pipe2me(1) -- manage tunnels to a pipe2me server
 `pipe2me` [ options ] setup ...<br>
 `pipe2me` [ options ] env<br>
 `pipe2me` [ options ] start<br>
-`pipe2me` [ options ] echo<br>
 `pipe2me` [ options ] monit ...<br>
 `pipe2me` [ options ] monitrc ...<br>
 
@@ -116,7 +115,7 @@ the _http_ and _https_ protocols.
 
 To start all configured tunnels and echo servers run
 
-`pipe2me` echo<br>
+`pipe2me` start --echo<br>
 
 ## BUGS
 

@@ -3,6 +3,7 @@ $:.unshift "#{File.dirname(__FILE__)}/../lib"
 
 require "pipe2me"
 require "pipe2me/cli"
+require "pipe2me/cli-foreman"
 require "pipe2me/cli-monit"
 
 begin
