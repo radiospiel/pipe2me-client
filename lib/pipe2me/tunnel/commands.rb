@@ -30,7 +30,7 @@ module Pipe2me::Tunnel::Commands
   def echo_commands
     tunnels.map do |protocol, remote_port, local_port|
       next unless cmd = echo_server_command(protocol, local_port)
-      [ "echo_#{remote_port}", cmd ]
+      [ "echo_#{local_port}", cmd ]
     end.compact
   end
 
