@@ -1,3 +1,9 @@
+# v0.2.4: Tue Jan 21 19:32:37 2014
+
+- Bumps version number [radiospiel]
+- Updates documentation [radiospiel]
+- Renames tokens [radiospiel]
+
 # v0.2.3: Tue Jan 21 12:23:34 2014
 
 - Bumps version number [radiospiel]
