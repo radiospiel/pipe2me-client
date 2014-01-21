@@ -7,19 +7,19 @@
 \fBpipe2me\fR \- manage tunnels to a pipe2me server
 .
 .SH "SYNOPSIS"
-\fBpipe2me\fR [ options ] setup \.\.\.
+\fBpipe2me\fR setup [ options ] \.\.\.
 .
 .br
-\fBpipe2me\fR [ options ] env
+\fBpipe2me\fR env [ options ]
 .
 .br
-\fBpipe2me\fR [ options ] start
+\fBpipe2me\fR start [ options ]
 .
 .br
-\fBpipe2me\fR [ options ] monit \.\.\.
+\fBpipe2me\fR monit [ options ] \.\.\.
 .
 .br
-\fBpipe2me\fR [ options ] verify \.\.\.
+\fBpipe2me\fR verify [ options ] \.\.\.
 .
 .br
 .
@@ -59,6 +59,10 @@
 These options control the pipe2me operations\.
 .
 .TP
+\fB\-\-dir DIR\fR
+Change into DIR before operations
+.
+.TP
 \fB\-h\fR, \fB\-\-help\fR
 Show pipe2me help information and exit\.
 .
@@ -71,7 +75,7 @@ Be more verbose\.
 Be more quiet\.
 .
 .TP
-\fB\-s\fR, \fB\-\-silent\fR
+\fB\-\-silent\fR
 Be absolutely silent\.
 .
 .SH "TUNNEL SETUP"

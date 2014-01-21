@@ -3,11 +3,11 @@ pipe2me(1) -- manage tunnels to a pipe2me server
 
 ## SYNOPSIS
 
-`pipe2me` [ options ] setup ...<br>
-`pipe2me` [ options ] env<br>
-`pipe2me` [ options ] start<br>
-`pipe2me` [ options ] monit ...<br>
-`pipe2me` [ options ] verify ...<br>
+`pipe2me` setup [ options ]  ...<br>
+`pipe2me` env [ options ] <br>
+`pipe2me` start [ options ] <br>
+`pipe2me` monit [ options ] ...<br>
+`pipe2me` verify [ options ] ...<br>
 
 ## DESCRIPTION
 
