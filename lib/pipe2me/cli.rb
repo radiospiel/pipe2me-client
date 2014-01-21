@@ -36,8 +36,8 @@ class Pipe2me::CLI < Thor
   end
 
   desc "setup", "fetch a new tunnel setup"
-  option :server, :default => "http://test.pipe2.me:8080"
-  option :auth, :required => true                     # "auth token"
+  option :server, :aliases => :s, :default => "http://test.pipe2.me:8080"
+  option :token, :required => true                    # "tunnel token"
   option :protocols, :default => "https"              # "protocol names, e.g. 'http,https,imap'"
   option :ports, :type => :string                     # "local ports, one per protocol"
   def setup

@@ -5,7 +5,7 @@ describe "verify subcommand"
 
 # setup a tunnel
 it_sets_up_tunnels_and_verifies() {
-  fqdn=$($pipe2me setup --server $pipe2me_server --auth short@test.kinko.me)
+  fqdn=$($pipe2me setup --server $pipe2me_server --token short@pipe2me)
 
   # pipe2me setup --server $pipe2me_server returns the fqdn of the subdomain and nothing else
   test 1 -eq $(echo $fqdn | wc -l)

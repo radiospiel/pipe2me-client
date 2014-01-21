@@ -13,7 +13,7 @@ it_works_with_monitrc() {
 
 it_creates_a_monitrc_file() {
   ! [ -e pipe2me.monitrc ]
-  fqdn=$($pipe2me setup --server $pipe2me_server --auth $pipe2me_token)
+  fqdn=$($pipe2me setup --server $pipe2me_server --token $pipe2me_token)
 
   $pipe2me monitrc
   [ -e pipe2me.monitrc ]
