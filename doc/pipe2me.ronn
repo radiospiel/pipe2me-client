@@ -53,11 +53,11 @@ Options include:
 
   * `--server`, `-s` servername:
     Use pipe2.me server on that host (default: http://pipe2.dev)
-  * `--auth`, `-a` authtoken:
-    pipe2.me auth token (default: pipe2-dev-token)
-  * `--protocols`, `-p` protocols:
+  * `--token` token:
+    pipe2.me tunnel token (default: pipe2-dev-token)
+  * `--protocols` protocols:
     protocol names, e.g. 'http,https,imap' (default: https)
-  * `--local-ports`, `-l` ports:
+  * `--ports` ports:
     local ports, one per protocol
 
 ### EXAMPLES
