@@ -1,3 +1,10 @@
+# v0.2.3: Tue Jan 21 12:23:34 2014
+
+- Bumps version number [radiospiel]
+- Updates documentation [radiospiel]
+- Implement verbosity options (--silent, --verbose, --quiet) [radiospiel]
+- Add --dir option [radiospiel]
+
 # v0.2.2: Sun Jan 19 01:00:21 2014
 
 - Bumps version number [radiospiel]
