@@ -32,6 +32,8 @@ domain name) in a single directory. This directory contains these files:
 
 These options control the pipe2me operations.
 
+  * `--dir DIR`:
+    Change into DIR before operations
   * `-h`, `--help`:
     Show pipe2me help information and exit.
   * `-v`, `--verbose`:
