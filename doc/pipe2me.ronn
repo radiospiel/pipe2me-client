@@ -40,7 +40,7 @@ These options control the pipe2me operations.
     Be more verbose.
   * `-q`, `--quiet`:
     Be more quiet.
-  * `-s`, `--silent`:
+  * `--silent`:
     Be absolutely silent.
 
 ## TUNNEL SETUP

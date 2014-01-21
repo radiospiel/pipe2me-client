@@ -2,12 +2,25 @@ require "thor"
 
 class Pipe2me::CLI < Thor
   class_option :dir, :type => :string
+  class_option :verbose, :type => :boolean, :aliases => :v
+  class_option :quiet, :type => :boolean, :aliases => :q
+  class_option :silent, :type => :boolean
 
   private
 
   def handle_global_options
+    UI.verbosity = 2
+    if options[:verbose]
+      UI.verbosity = 3
+    elsif options[:quiet]
+      UI.verbosity = 1
+    elsif options[:silent]
+      UI.verbosity = -1
+    end
+
     if options[:dir]
       Dir.chdir options[:dir]
+      UI.info "Changed into", options[:dir]
     end
   end
 
