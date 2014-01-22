@@ -1,3 +1,9 @@
+# v0.2.5: Wed Jan 22 12:09:02 2014
+
+- Bump version number [radiospiel]
+- Stringify Shellwords.escape argument, see #3 [radiospiel]
+- Improve documentation, see #4 [radiospiel]
+
 # v0.2.4: Tue Jan 21 19:32:37 2014
 
 - Bumps version number [radiospiel]
