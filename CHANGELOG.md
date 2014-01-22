@@ -1,3 +1,11 @@
+# v0.2.6: Wed Jan 22 20:09:53 2014
+
+- Bumps version number [radiospiel]
+- Renamed README.mdown file to .md [radiospiel]
+- Fixes paths in the documentation [radiospiel]
+- Adds check command. [radiospiel]
+- Fixed typo in README [radiospiel]
+
 # v0.2.5: Wed Jan 22 12:09:02 2014
 
 - Bump version number [radiospiel]
