@@ -30,7 +30,7 @@ two services on localhost (http on port 9090, https on port 9091).
 
 <pre>
 # Setup tunnels. This responds with the domain name
-&gt; <b>./bin/pipe2me setup --protocols http,https \
+&gt; <b>pipe2me setup --protocols http,https \
        --server http://test.pipe2.me:8080 \
        --token review@pipe2me --ports 9090,9091</b>
 pretty-ivory-horse.test.pipe2.me
@@ -41,7 +41,7 @@ PIPE2ME_URLS_0=http://pretty-ivory-horse.test.pipe2.me:10003
 PIPE2ME_URLS_1=https://pretty-ivory-horse.test.pipe2.me:10004
 
 # Start the tunnels via foreman (but please review on using foreman)
-&gt; <b>/bin/pipe2me start</b>
+&gt; <b>pipe2me start</b>
 </pre>
 
 See also the [example session](http://test.pipe2.me/example_session.html)

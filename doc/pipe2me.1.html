@@ -158,7 +158,7 @@ local ports, one per protocol</li>
 
 <p>shows the tunnel configuration in the current directory. Example:</p>
 
-<pre><code>$ ./bin/pipe2me env
+<pre><code>$ pipe2me env
 PIPE2ME_SERVER=http://pipe2.dev
 PIPE2ME_TOKEN=69o1ykbfzggz9lcd6qjzkggq7
 PIPE2ME_FQDN=handsome-snowwhite-hamster.pipe2.dev
@@ -171,13 +171,13 @@ PIPE2ME_TUNNEL=ssh://eno@pipe2.dev:4444
 <p>verify that a tunnel exists and is online. The return value is != 0 if the tunnel
 does not exist. Example:</p>
 
-<pre><code>$ ./bin/pipe2me verify
+<pre><code>$ pipe2me verify
 handsome-snowwhite-hamster.pipe2.dev
 </code></pre>
 
 <p>or</p>
 
-<pre><code>$ ./bin/pipe2me verify
+<pre><code>$ pipe2me verify
 http://pipe2.dev:8080/tunnels/7171496237390591457/verify: 404 tunnel expired (Net::HTTPNotFound)
 </code></pre>
 
@@ -186,7 +186,7 @@ http://pipe2.dev:8080/tunnels/7171496237390591457/verify: 404 tunnel expired (Ne
 <p>The check command asks the server whether or not the client can be
 reached from the server directly via its IP address.</p>
 
-<pre><code>$ ./bin/pipe2me check
+<pre><code>$ pipe2me check
 ID=5722635153705921036
 STATUS=offline
 CHECKED_AT=2014-01-22\ 18:49:22\ UTC
