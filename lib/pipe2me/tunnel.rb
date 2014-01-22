@@ -69,6 +69,11 @@ module Pipe2me::Tunnel
     puts config.fqdn
   end
 
+  def check
+    r = HTTP.get! "#{url}/check"
+    puts r
+  end
+
   def update
     unless File.exists?(SSH_PRIVKEY)
       ssh_keygen

@@ -60,6 +60,7 @@
     <a href="#OPTIONS">OPTIONS</a>
     <a href="#TUNNEL-SETUP">TUNNEL SETUP</a>
     <a href="#SHOW-TUNNEL-SETTINGS">SHOW TUNNEL SETTINGS</a>
+    <a href="#Check-the-tunnel-status">Check the tunnel status</a>
     <a href="#MANAGE-TUNNELS-with-monit">MANAGE TUNNELS with monit</a>
     <a href="#START-TUNNELS-via-foreman-">START TUNNELS (via foreman)</a>
     <a href="#TEST-TUNNELS-via-foreman-">TEST TUNNELS (via foreman)</a>
@@ -86,7 +87,8 @@
 <code>pipe2me</code> env [ options ] <br />
 <code>pipe2me</code> start [ options ] <br />
 <code>pipe2me</code> monit [ options ] ...<br />
-<code>pipe2me</code> verify [ options ] ...<br /></p>
+<code>pipe2me</code> verify [ options ] ...<br />
+<code>pipe2me</code> check<br /></p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -177,6 +179,18 @@ handsome-snowwhite-hamster.pipe2.dev
 
 <pre><code>$ ./bin/pipe2me verify
 http://pipe2.dev:8080/tunnels/7171496237390591457/verify: 404 tunnel expired (Net::HTTPNotFound)
+</code></pre>
+
+<h2 id="Check-the-tunnel-status">Check the tunnel status</h2>
+
+<p>The check command asks the server whether or not the client can be
+reached from the server directly via its IP address.</p>
+
+<pre><code>$ ./bin/pipe2me check
+ID=5722635153705921036
+STATUS=offline
+CHECKED_AT=2014-01-22\ 18:49:22\ UTC
+IP=127.0.0.1
 </code></pre>
 
 <h2 id="MANAGE-TUNNELS-with-monit">MANAGE TUNNELS with monit</h2>

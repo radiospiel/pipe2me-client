@@ -71,4 +71,11 @@ class Pipe2me::CLI < Thor
 
     Pipe2me::Tunnel.update
   end
+
+  desc "check", "check online status"
+  def check
+    handle_global_options
+
+    Pipe2me::Tunnel.check
+  end
 end

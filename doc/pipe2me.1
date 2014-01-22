@@ -22,6 +22,9 @@
 \fBpipe2me\fR verify [ options ] \.\.\.
 .
 .br
+\fBpipe2me\fR check
+.
+.br
 .
 .SH "DESCRIPTION"
 \fBpipe2me\fR is a client for the pipe2me server package, which helps tunnel TCP connections through routers\.
@@ -176,6 +179,23 @@ or
 
 $ \./bin/pipe2me verify
 http://pipe2\.dev:8080/tunnels/7171496237390591457/verify: 404 tunnel expired (Net::HTTPNotFound)
+.
+.fi
+.
+.IP "" 0
+.
+.SH "Check the tunnel status"
+The check command asks the server whether or not the client can be reached from the server directly via its IP address\.
+.
+.IP "" 4
+.
+.nf
+
+$ \./bin/pipe2me check
+ID=5722635153705921036
+STATUS=offline
+CHECKED_AT=2014\-01\-22\e 18:49:22\e UTC
+IP=127\.0\.0\.1
 .
 .fi
 .
