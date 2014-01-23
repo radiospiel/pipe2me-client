@@ -49,10 +49,10 @@ and the [man page](http://test.pipe2.me/pipe2me.1.html).
 
 ## Testing
 
-Tests are implemented using
-[roundup](https://github.com/bmizerany/roundup/blob/master/INSTALLING#files).
+Tests are implemented using roundup.
 To install roundup on OSX, run `brew install roundup`. Other systems are
-supported as well, compare roundup's documentation for details.
+supported as well, [compare roundup's documentation](https://github.com/bmizerany/roundup/blob/master/INSTALLING#files)
+for details.
 
 The implemented tests are *integration tests* in the sense, that they test the
 behaviour of the *pipe2me-client* package in connection to an external pipe2me
