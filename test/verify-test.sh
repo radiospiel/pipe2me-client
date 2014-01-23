@@ -11,7 +11,7 @@ it_sets_up_tunnels_and_verifies() {
   test 1 -eq $(echo $fqdn | wc -l)
 
   verified=$($pipe2me verify)
-  test "$fqdn" == "$verified"
+  test "$fqdn" = "$verified"
 
   # sleep 4 seconds. The tunnel lives for 3 seconds
   sleep 4

@@ -7,7 +7,7 @@ describe "openssl tests"
 it_sets_up_openssl_certs() {
   fqdn=$($pipe2me setup --server $pipe2me_server --token $pipe2me_token)
   test -f pipe2me.openssl.priv
-  cat pipe2me.openssl.priv | grep "BEGIN RSA PRIVATE KEY"
+  cat pipe2me.openssl.priv | grep -E "BEGIN.*PRIVATE KEY"
 
   test -f pipe2me.openssl.cert
   cat pipe2me.openssl.cert | grep "BEGIN CERTIFICATE"
