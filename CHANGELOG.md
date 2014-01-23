@@ -1,3 +1,8 @@
+# v0.2.8: Thu Jan 23 15:07:25 2014
+
+- Bumps version number. [radiospiel]
+- Fixed autossh detectiong regression [radiospiel]
+
 # v0.2.7: Thu Jan 23 14:38:19 2014
 
 - Bumps version number [radiospiel]
