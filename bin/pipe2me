@@ -13,8 +13,8 @@ end
 
 begin
   Pipe2me::CLI.start ARGV
-rescue
-  if UI.verbosity >= 2
+rescue StandardError
+  if UI.verbosity >= 3
     UI.error $!.message
     raise
   elsif UI.verbosity >= 0
