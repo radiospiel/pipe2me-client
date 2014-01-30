@@ -62,7 +62,7 @@ module Pipe2me::ShellFormat
       if obj.respond_to?(:attributes)
         format_entries(ary, obj.attributes, prefix)
       else
-        ary << "#{PREFIX}_#{prefix}=#{Shellwords.escape(obj)}\n"
+        ary << "#{PREFIX}_#{prefix}=#{Shellwords.escape(obj.to_s)}\n"
       end
     end
   end

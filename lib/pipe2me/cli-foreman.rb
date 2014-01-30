@@ -2,6 +2,8 @@ class Pipe2me::CLI < Thor
   desc "start", "Start tunnels"
   option :echo, :type => :boolean, :banner => "Also run echo servers"
   def start
+    handle_global_options
+
     procfile = options[:echo] ? "pipe2me.procfile.echo" : "pipe2me.procfile"
 
     File.open procfile, "w" do |io|

@@ -3,6 +3,8 @@ class Pipe2me::CLI < Thor
   option :port, :default => 5555, :banner => "control port"
   option :echo, :type => :boolean, :banner => "Also run echo servers"
   def monit(*args)
+    handle_global_options
+
     monitrc_file = create_monitrc
 
     UI.warn "Running: monit -c #{monitrc_file} #{args.join(" ")}"
@@ -13,18 +15,25 @@ class Pipe2me::CLI < Thor
   option :port, :default => 5555, :banner => "control port"
   option :echo, :type => :boolean, :banner => "Also run echo servers"
   def monitrc
+    handle_global_options
+
     monitrc_file = create_monitrc
     Kernel.exec "monit", "-c", monitrc_file, "-t"
   end
 
   private
 
+  def which!(cmd)
+    path = `which #{cmd}`.chomp
+    raise "Cannot find #{cmd} in your $PATH. Is it installed?" if path == ""
+    path
+  end
+
   def create_monitrc
     path = options[:echo] ? "pipe2me.monitrc.echo" : "pipe2me.monitrc"
 
     # The daemon binary
-    daemon_bin = `which daemon`.chomp
-    daemon = "#{daemon_bin} -D #{File.expand_path(Dir.getwd)}"
+    daemon = "#{which! :daemon} -D #{File.expand_path(Dir.getwd)}"
 
     port = options[:port]
 

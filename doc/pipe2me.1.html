@@ -60,6 +60,7 @@
     <a href="#OPTIONS">OPTIONS</a>
     <a href="#TUNNEL-SETUP">TUNNEL SETUP</a>
     <a href="#SHOW-TUNNEL-SETTINGS">SHOW TUNNEL SETTINGS</a>
+    <a href="#Check-the-tunnel-status">Check the tunnel status</a>
     <a href="#MANAGE-TUNNELS-with-monit">MANAGE TUNNELS with monit</a>
     <a href="#START-TUNNELS-via-foreman-">START TUNNELS (via foreman)</a>
     <a href="#TEST-TUNNELS-via-foreman-">TEST TUNNELS (via foreman)</a>
@@ -82,11 +83,12 @@
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
-<p><code>pipe2me</code> [ options ] setup ...<br />
-<code>pipe2me</code> [ options ] env<br />
-<code>pipe2me</code> [ options ] start<br />
-<code>pipe2me</code> [ options ] monit ...<br />
-<code>pipe2me</code> [ options ] verify ...<br /></p>
+<p><code>pipe2me</code> setup [ options ]  ...<br />
+<code>pipe2me</code> env [ options ] <br />
+<code>pipe2me</code> start [ options ] <br />
+<code>pipe2me</code> monit [ options ] ...<br />
+<code>pipe2me</code> verify [ options ] ...<br />
+<code>pipe2me</code> check<br /></p>
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
@@ -115,10 +117,11 @@ domain name) in a single directory. This directory contains these files:</p>
 <p>These options control the pipe2me operations.</p>
 
 <dl>
+<dt><code>--dir DIR</code></dt><dd>Change into DIR before operations</dd>
 <dt><code>-h</code>, <code>--help</code></dt><dd>Show pipe2me help information and exit.</dd>
 <dt><code>-v</code>, <code>--verbose</code></dt><dd>Be more verbose.</dd>
 <dt><code>-q</code>, <code>--quiet</code></dt><dd>Be more quiet.</dd>
-<dt><code>-s</code>, <code>--silent</code></dt><dd>Be absolutely silent.</dd>
+<dt><code>--silent</code></dt><dd>Be absolutely silent.</dd>
 </dl>
 
 
@@ -133,11 +136,11 @@ domain name) in a single directory. This directory contains these files:</p>
 <ul>
 <li><code>--server</code>, <code>-s</code> servername:
 Use pipe2.me server on that host (default: http://pipe2.dev)</li>
-<li><code>--auth</code>, <code>-a</code> authtoken: <br />
-pipe2.me auth token (default: pipe2-dev-token)</li>
-<li><code>--protocols</code>, <code>-p</code> protocols: <br />
+<li><code>--token</code> token: <br />
+pipe2.me tunnel token (default: pipe2-dev-token)</li>
+<li><code>--protocols</code> protocols: <br />
 protocol names, e.g. 'http,https,imap' (default: https)</li>
-<li><code>--local-ports</code>, <code>-l</code> ports: <br />
+<li><code>--ports</code> ports: <br />
 local ports, one per protocol</li>
 </ul>
 
@@ -155,7 +158,7 @@ local ports, one per protocol</li>
 
 <p>shows the tunnel configuration in the current directory. Example:</p>
 
-<pre><code>$ ./bin/pipe2me env
+<pre><code>$ pipe2me env
 PIPE2ME_SERVER=http://pipe2.dev
 PIPE2ME_TOKEN=69o1ykbfzggz9lcd6qjzkggq7
 PIPE2ME_FQDN=handsome-snowwhite-hamster.pipe2.dev
@@ -168,14 +171,26 @@ PIPE2ME_TUNNEL=ssh://eno@pipe2.dev:4444
 <p>verify that a tunnel exists and is online. The return value is != 0 if the tunnel
 does not exist. Example:</p>
 
-<pre><code>$ ./bin/pipe2me verify
+<pre><code>$ pipe2me verify
 handsome-snowwhite-hamster.pipe2.dev
 </code></pre>
 
 <p>or</p>
 
-<pre><code>$ ./bin/pipe2me verify
+<pre><code>$ pipe2me verify
 http://pipe2.dev:8080/tunnels/7171496237390591457/verify: 404 tunnel expired (Net::HTTPNotFound)
+</code></pre>
+
+<h2 id="Check-the-tunnel-status">Check the tunnel status</h2>
+
+<p>The check command asks the server whether or not the client can be
+reached from the server directly via its IP address.</p>
+
+<pre><code>$ pipe2me check
+ID=5722635153705921036
+STATUS=offline
+CHECKED_AT=2014-01-22\ 18:49:22\ UTC
+IP=127.0.0.1
 </code></pre>
 
 <h2 id="MANAGE-TUNNELS-with-monit">MANAGE TUNNELS with monit</h2>

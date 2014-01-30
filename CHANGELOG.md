@@ -1,3 +1,41 @@
+# v0.2.8: Thu Jan 23 15:07:25 2014
+
+- Bumps version number. [radiospiel]
+- Fixed autossh detectiong regression [radiospiel]
+
+# v0.2.7: Thu Jan 23 14:38:19 2014
+
+- Bumps version number [radiospiel]
+- Check that autossh is actually installed. [radiospiel]
+- Hide stacktrace when not --verbose [radiospiel]
+
+# v0.2.6: Wed Jan 22 20:09:53 2014
+
+- Bumps version number [radiospiel]
+- Renamed README.mdown file to .md [radiospiel]
+- Fixes paths in the documentation [radiospiel]
+- Adds check command. [radiospiel]
+- Fixed typo in README [radiospiel]
+
+# v0.2.5: Wed Jan 22 12:09:02 2014
+
+- Bump version number [radiospiel]
+- Stringify Shellwords.escape argument, see #3 [radiospiel]
+- Improve documentation, see #4 [radiospiel]
+
+# v0.2.4: Tue Jan 21 19:32:37 2014
+
+- Bumps version number [radiospiel]
+- Updates documentation [radiospiel]
+- Renames tokens [radiospiel]
+
+# v0.2.3: Tue Jan 21 12:23:34 2014
+
+- Bumps version number [radiospiel]
+- Updates documentation [radiospiel]
+- Implement verbosity options (--silent, --verbose, --quiet) [radiospiel]
+- Add --dir option [radiospiel]
+
 # v0.2.2: Sun Jan 19 01:00:21 2014
 
 - Bumps version number [radiospiel]

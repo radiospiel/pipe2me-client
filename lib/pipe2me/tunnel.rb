@@ -31,7 +31,7 @@ module Pipe2me::Tunnel
     end
 
     # [todo] escape auth option
-    response = HTTP.post! "#{Pipe2me::Config.server}/tunnels/#{options[:auth]}",
+    response = HTTP.post! "#{Pipe2me::Config.server}/tunnels/#{options[:token]}",
       "protocols" => options[:protocols]
 
     server_info = ShellFormat.parse(response)
@@ -67,6 +67,11 @@ module Pipe2me::Tunnel
   def verify
     HTTP.get! "#{url}/verify"
     puts config.fqdn
+  end
+
+  def check
+    r = HTTP.get! "#{url}/check"
+    puts r
   end
 
   def update

@@ -36,8 +36,14 @@ module Pipe2me::Tunnel::Commands
 
   private
 
+  def which!(cmd)
+    path = `which #{cmd}`.chomp
+    raise "Cannot find #{cmd} in your $PATH. Is it installed?" if path == ""
+    path
+  end
+
   def port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
-    autossh = `which autossh`.chomp
+    autossh = which! :autossh
 
     cmd = <<-SHELL
       env AUTOSSH_GATETIME=0                                # comments work here..

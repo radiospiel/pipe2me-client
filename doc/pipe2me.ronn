@@ -3,11 +3,12 @@ pipe2me(1) -- manage tunnels to a pipe2me server
 
 ## SYNOPSIS
 
-`pipe2me` [ options ] setup ...<br>
-`pipe2me` [ options ] env<br>
-`pipe2me` [ options ] start<br>
-`pipe2me` [ options ] monit ...<br>
-`pipe2me` [ options ] verify ...<br>
+`pipe2me` setup [ options ]  ...<br>
+`pipe2me` env [ options ] <br>
+`pipe2me` start [ options ] <br>
+`pipe2me` monit [ options ] ...<br>
+`pipe2me` verify [ options ] ...<br>
+`pipe2me` check<br>
 
 ## DESCRIPTION
 
@@ -32,13 +33,15 @@ domain name) in a single directory. This directory contains these files:
 
 These options control the pipe2me operations.
 
+  * `--dir DIR`:
+    Change into DIR before operations
   * `-h`, `--help`:
     Show pipe2me help information and exit.
   * `-v`, `--verbose`:
     Be more verbose.
   * `-q`, `--quiet`:
     Be more quiet.
-  * `-s`, `--silent`:
+  * `--silent`:
     Be absolutely silent.
 
 ## TUNNEL SETUP
@@ -51,11 +54,11 @@ Options include:
 
   * `--server`, `-s` servername:
     Use pipe2.me server on that host (default: http://pipe2.dev)
-  * `--auth`, `-a` authtoken:
-    pipe2.me auth token (default: pipe2-dev-token)
-  * `--protocols`, `-p` protocols:
+  * `--token` token:
+    pipe2.me tunnel token (default: pipe2-dev-token)
+  * `--protocols` protocols:
     protocol names, e.g. 'http,https,imap' (default: https)
-  * `--local-ports`, `-l` ports:
+  * `--ports` ports:
     local ports, one per protocol
 
 ### EXAMPLES
@@ -70,7 +73,7 @@ Setup 3 tunnels under a specific FQDN:
 
 shows the tunnel configuration in the current directory. Example:
 
-    $ ./bin/pipe2me env
+    $ pipe2me env
     PIPE2ME_SERVER=http://pipe2.dev
     PIPE2ME_TOKEN=69o1ykbfzggz9lcd6qjzkggq7
     PIPE2ME_FQDN=handsome-snowwhite-hamster.pipe2.dev
@@ -82,13 +85,25 @@ shows the tunnel configuration in the current directory. Example:
 verify that a tunnel exists and is online. The return value is != 0 if the tunnel
 does not exist. Example:
 
-    $ ./bin/pipe2me verify
+    $ pipe2me verify
     handsome-snowwhite-hamster.pipe2.dev
 
 or
 
-    $ ./bin/pipe2me verify
+    $ pipe2me verify
     http://pipe2.dev:8080/tunnels/7171496237390591457/verify: 404 tunnel expired (Net::HTTPNotFound)
+
+
+## Check the tunnel status
+
+The check command asks the server whether or not the client can be
+reached from the server directly via its IP address.
+
+    $ pipe2me check
+    ID=5722635153705921036
+    STATUS=offline
+    CHECKED_AT=2014-01-22\ 18:49:22\ UTC
+    IP=127.0.0.1
 
 ## MANAGE TUNNELS with monit
 

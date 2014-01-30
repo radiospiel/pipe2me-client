@@ -1,4 +1,4 @@
 module Pipe2me
-  VERSION = "0.2.2"
-  BANNER = "pipe2.me command line client V#{Pipe2me::VERSION}; (c) The kink team, 2013, 2014."
+  VERSION = "0.2.8"
+  BANNER = "pipe2me command line client V#{Pipe2me::VERSION}; (c) The kinko team, 2013, 2014."
 end
