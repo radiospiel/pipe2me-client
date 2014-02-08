@@ -5,7 +5,13 @@
 <title>outfile.ansi</title>
 <link rel="stylesheet" href="bootstrap.css"></link><link rel="stylesheet" href="style.css"></link></head>
 <body>
-<div style="font-family:Courier New;font-size:10pt;"><div class="command-line">TEMP_DIR=$(mktemp -d)</div>
+  <h1>Example session</h1>
+  <p>
+    The following is a transcript of an example session which tunnels the local
+    ports 9090 and 9091 via the pipe2me server at http://test.pipe2.me:8080.
+  </p>
+<div style="font-family:Courier New;font-size:10pt;">
+  <div class="command-line">TEMP_DIR=$(mktemp -d)</div>
 <div class="command-line">cd &quot;$TEMP_DIR&quot;</div>
 <div class="command-line">pipe2me setup --protocols http,https \</div>
 <div class="command-line continuation">       --server http://test.pipe2.me:8080 \</div>
