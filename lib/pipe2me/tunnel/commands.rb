@@ -27,13 +27,13 @@ module Pipe2me::Tunnel::Commands
     end.compact
   end
 
-  def mapping_commands
-    natpmpc = File.expand_path "#{File.dirname(__FILE__)}/../bin/natpmpc"
-    mappings = tunnels.map do |_, remote_port, local_port|
-      "tcp:#{remote_port}:#{local_port}"
-    end
-    [ [ "natpmpc", "#{natpmpc} #{mappings.join(" ")} && sleep 10000" ] ]
-  end
+  # def mapping_commands
+  #   natpmpc = File.expand_path "#{File.dirname(__FILE__)}/../bin/natpmpc"
+  #   mappings = tunnels.map do |_, remote_port, local_port|
+  #     "tcp:#{remote_port}:#{local_port}"
+  #   end
+  #   [ [ "natpmpc", "#{natpmpc} #{mappings.join(" ")} && sleep 10000" ] ]
+  # end
 
   def echo_commands
     tunnels.map do |protocol, remote_port, local_port|

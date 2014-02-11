@@ -11,9 +11,9 @@ class Pipe2me::CLI < Thor
         io.write "#{name}: #{cmd}\n"
       end
 
-      Pipe2me::Tunnel.mapping_commands.each do |name, cmd|
-        io.write "#{name}: #{cmd}\n"
-      end
+      # Pipe2me::Tunnel.mapping_commands.each do |name, cmd|
+      #   io.write "#{name}: #{cmd}\n"
+      # end
 
       next unless options[:echo]
 
