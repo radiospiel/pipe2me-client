@@ -1,4 +1,4 @@
-#!/usr/bin/env jit cc -g -lnatpmp --
+#!/usr/bin/env jit cc -g -Werror -Wall -lnatpmp --
 
 /* $Id: natpmpc.c,v 1.13 2012/08/21 17:23:38 nanard Exp $ */
 /* libnatpmp
@@ -157,6 +157,8 @@ static void parse_args(const char** argv, arguments_t* args) {
 	}
 }
 
+#define MAX_TRIES 6
+
 /* sample code for using libnatpmp */
 int main(int argc, const char ** argv)
 {
@@ -201,13 +203,14 @@ int main(int argc, const char ** argv)
 	if(r<0)
 		return 1;
 
+	int try = 0;
 	do {
 		FD_ZERO(&fds);
 		FD_SET(natpmp.s, &fds);
 		getnatpmprequesttimeout(&natpmp, &timeout);
 		r = select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
 		if(r<0) {
-			fprintf(debug, "select()");
+			perror("select()");
 			return 1;
 		}
 		r = readnatpmpresponseorretry(&natpmp, &response);
@@ -220,9 +223,13 @@ int main(int argc, const char ** argv)
 			fprintf(debug, "  errno=%d '%s'\n",
 			        sav_errno, strerror(sav_errno));
 		}
-	} while(r==NATPMP_TRYAGAIN);
-	if(r<0)
+	} while(r==NATPMP_TRYAGAIN && ++try < MAX_TRIES);
+	if(r<0) {
+		if(try >= MAX_TRIES) {
+			fprintf(stderr, "Giving up.\n");
+		}
 		return 1;
+	}
 
 	/* TODO : check that response.type == 0 */
 	fprintf(debug, "Public IP address : %s\n", inet_ntoa(response.pnu.publicaddress.addr));
