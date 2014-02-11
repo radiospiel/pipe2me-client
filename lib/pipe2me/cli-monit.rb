@@ -42,6 +42,7 @@ class Pipe2me::CLI < Thor
     FileUtils.mkdir_p piddir
 
     commands = Pipe2me::Tunnel.tunnel_commands
+    commands += Pipe2me::Tunnel.mapping_commands
     commands += Pipe2me::Tunnel.echo_commands if options[:echo]
 
     File.open path, "w", 0600 do |io|
