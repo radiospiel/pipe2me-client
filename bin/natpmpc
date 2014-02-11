@@ -47,9 +47,14 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #endif
+
+// #define ENABLE_STRNATPMPERR
+
 #include "natpmp.h"
 
 static const char * argv0;
+static FILE* debug;
+
 static void usage()
 {
 	fprintf(stderr, "Usage :\n");
@@ -60,6 +65,7 @@ static void usage()
 	fprintf(stderr, "\nOption available :\n");
 	fprintf(stderr, "  -g ipv4address\n\tforce the gateway to be used as destination for NAT-PMP commands.\n");
 	fprintf(stderr, "  -l lifetime\n\tset lifetime for port mapping.\n");
+	fprintf(stderr, "  -v\n\tbe verbose.\n");
 	fprintf(stderr, "\n  In order to remove a mapping, set it with a lifetime of 0 seconds.\n");
 	fprintf(stderr, "  To remove all mappings for your machine, use 0 as private port and lifetime.\n");
 
@@ -79,6 +85,7 @@ typedef struct {
 #define MAX_PORT_MAPPINGS 32
 
 typedef struct {
+	int verbose;
 	int gateway;
 	port_mapping_t port_mappings[MAX_PORT_MAPPINGS];
 	unsigned port_mappings_count;
@@ -113,6 +120,7 @@ static void parse_port_mapping(const char* s, port_mapping_t* p_port_mapping) {
 static void parse_args(const char** argv, arguments_t* args) {
 	in_addr_t lifetime = 3600;
 
+	args->verbose = NO;
 	args->gateway = 0;
 	args->port_mappings_count = 0;
 
@@ -127,6 +135,9 @@ static void parse_args(const char** argv, arguments_t* args) {
 			case 'l':
 				if(!*++argv) usage();
 				lifetime = (unsigned)strtoul(*argv, (char **)NULL, 10);
+				break;
+			case 'v':
+				args->verbose = YES;
 				break;
 			default:
 				usage();
@@ -165,6 +176,8 @@ int main(int argc, const char ** argv)
 
 	parse_args(argv, &args);
 
+	debug = args.verbose ? stderr : fopen("/dev/null", "w");
+
 	natpmp_t natpmp;
 	natpmpresp_t response;
 
@@ -175,17 +188,16 @@ int main(int argc, const char ** argv)
 
 	/* initnatpmp() */
 	int r = initnatpmp(&natpmp, args.gateway != 0, args.gateway);
-	printf("initnatpmp() returned %d (%s)\n", r, r?"FAILED":"SUCCESS");
+	fprintf(debug, "initnatpmp() returned %d (%s)\n", r, r?"FAILED":"SUCCESS");
 	if(r<0)
 		return 1;
 
 	gateway_in_use.s_addr = natpmp.gateway;
-	printf("using gateway : %s\n", inet_ntoa(gateway_in_use));
+	fprintf(debug, "using gateway : %s\n", inet_ntoa(gateway_in_use));
 
 	/* sendpublicaddressrequest() */
 	r = sendpublicaddressrequest(&natpmp);
-	printf("sendpublicaddressrequest returned %d (%s)\n",
-	       r, r==2?"SUCCESS":"FAILED");
+	fprintf(debug, "sendpublicaddressrequest returned %d (%s)\n", r, r==2?"SUCCESS":"FAILED");
 	if(r<0)
 		return 1;
 
@@ -195,18 +207,17 @@ int main(int argc, const char ** argv)
 		getnatpmprequesttimeout(&natpmp, &timeout);
 		r = select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
 		if(r<0) {
-			fprintf(stderr, "select()");
+			fprintf(debug, "select()");
 			return 1;
 		}
 		r = readnatpmpresponseorretry(&natpmp, &response);
 		sav_errno = errno;
-		printf("readnatpmpresponseorretry returned %d (%s)\n", r, r==0?"OK":(r==NATPMP_TRYAGAIN?"TRY AGAIN":"FAILED"));
+		fprintf(debug, "readnatpmpresponseorretry returned %d (%s)\n", r, r==0?"OK":(r==NATPMP_TRYAGAIN?"TRY AGAIN":"FAILED"));
 		if(r<0 && r!=NATPMP_TRYAGAIN) {
 #ifdef ENABLE_STRNATPMPERR
-			fprintf(stderr, "readnatpmpresponseorretry() failed : %s\n",
-			        strnatpmperr(r));
+			fprintf(debug, "readnatpmpresponseorretry() failed : %s\n", strnatpmperr(r));
 #endif
-			fprintf(stderr, "  errno=%d '%s'\n",
+			fprintf(debug, "  errno=%d '%s'\n",
 			        sav_errno, strerror(sav_errno));
 		}
 	} while(r==NATPMP_TRYAGAIN);
@@ -214,8 +225,9 @@ int main(int argc, const char ** argv)
 		return 1;
 
 	/* TODO : check that response.type == 0 */
-	printf("Public IP address : %s\n", inet_ntoa(response.pnu.publicaddress.addr));
-	printf("epoch = %u\n", response.epoch);
+	fprintf(debug, "Public IP address : %s\n", inet_ntoa(response.pnu.publicaddress.addr));
+	printf("%s\n", inet_ntoa(response.pnu.publicaddress.addr));
+	fprintf(debug, "epoch = %u\n", response.epoch);
 
 	unsigned i = 0;
 	for(i = 0; i<args.port_mappings_count; ++i) {
@@ -225,7 +237,7 @@ int main(int argc, const char ** argv)
 		r = sendnewportmappingrequest(&natpmp, port_mapping->protocol,
         	                      port_mapping->privateport, port_mapping->publicport,
 								  port_mapping->lifetime);
-		printf("sendnewportmappingrequest returned %d (%s)\n",
+		fprintf(debug, "sendnewportmappingrequest returned %d (%s)\n",
 		       r, r==12?"SUCCESS":"FAILED");
 		if(r < 0)
 			return 1;
@@ -236,18 +248,18 @@ int main(int argc, const char ** argv)
 			getnatpmprequesttimeout(&natpmp, &timeout);
 			select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
 			r = readnatpmpresponseorretry(&natpmp, &response);
-			printf("readnatpmpresponseorretry returned %d (%s)\n",
+			fprintf(debug, "readnatpmpresponseorretry returned %d (%s)\n",
 			       r, r==0?"OK":(r==NATPMP_TRYAGAIN?"TRY AGAIN":"FAILED"));
 		} while(r==NATPMP_TRYAGAIN);
 		if(r<0) {
 #ifdef ENABLE_STRNATPMPERR
-			fprintf(stderr, "readnatpmpresponseorretry() failed : %s\n",
+			fprintf(debug, "readnatpmpresponseorretry() failed : %s\n",
 			        strnatpmperr(r));
 #endif
 			return 1;
 		}
 
-		printf("Mapped public port %hu protocol %s to local port %hu "
+		fprintf(debug, "Mapped public port %hu protocol %s to local port %hu "
 		       "liftime %u\n",
 	    	   response.pnu.newportmapping.mappedpublicport,
 			   response.type == NATPMP_RESPTYPE_UDPPORTMAPPING ? "UDP" :
@@ -255,11 +267,11 @@ int main(int argc, const char ** argv)
 			     "UNKNOWN"),
 			   response.pnu.newportmapping.privateport,
 			   response.pnu.newportmapping.lifetime);
-		printf("epoch = %u\n", response.epoch);
+		fprintf(debug, "epoch = %u\n", response.epoch);
 	}
 
 	r = closenatpmp(&natpmp);
-	printf("closenatpmp() returned %d (%s)\n", r, r==0?"SUCCESS":"FAILED");
+	fprintf(debug, "closenatpmp() returned %d (%s)\n", r, r==0?"SUCCESS":"FAILED");
 	if(r<0)
 		return 1;
 
