@@ -2,8 +2,8 @@ require "thor"
 
 class Pipe2me::CLI < Thor
   class_option :dir, :type => :string
-  class_option :verbose, :type => :boolean, :aliases => :v
-  class_option :quiet, :type => :boolean, :aliases => :q
+  class_option :verbose, :type => :boolean, :aliases => "-v"
+  class_option :quiet, :type => :boolean, :aliases => "-q"
   class_option :silent, :type => :boolean
 
   private
@@ -36,7 +36,7 @@ class Pipe2me::CLI < Thor
   end
 
   desc "setup", "fetch a new tunnel setup"
-  option :server, :aliases => :s, :default => "http://test.pipe2.me:8080"
+  option :server, :aliases => "-s", :default => "http://test.pipe2.me:8080"
   option :token, :required => true                    # "tunnel token"
   option :protocols, :default => "https"              # "protocol names, e.g. 'http,https,imap'"
   option :ports, :type => :string                     # "local ports, one per protocol"
