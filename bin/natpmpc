@@ -55,10 +55,12 @@ void usage(FILE * out, const char * argv0)
 	fprintf(out, "\tdisplay the public IP address.\n");
 	fprintf(out, "  %s -h\n", argv0);
 	fprintf(out, "\tdisplay this help screen.\n");
-	fprintf(out, "  %s [options] -a <public port> <private port> <protocol> [lifetime]\n", argv0);
+	fprintf(out, "  %s [options] -a <public port> <private port>\n", argv0);
 	fprintf(out, "\tadd a port mapping.\n");
 	fprintf(out, "\nOption available :\n");
 	fprintf(out, "  -g ipv4address\n");
+	fprintf(out, "  -p protocol\n");
+	fprintf(out, "  -l lifetime\n");
 	fprintf(out, "\tforce the gateway to be used as destination for NAT-PMP commands.\n");
 	fprintf(out, "\n  In order to remove a mapping, set it with a lifetime of 0 seconds.\n");
 	fprintf(out, "  To remove all mappings for your machine, use 0 as private port and lifetime.\n");
@@ -74,7 +76,7 @@ int main(int argc, char * * argv)
 	struct timeval timeout;
 	fd_set fds;
 	int i;
-	int protocol = 0;
+	int protocol = NATPMP_PROTOCOL_TCP;
 	uint16_t privateport = 0;
 	uint16_t publicport = 0;
 	uint32_t lifetime = 3600;
@@ -108,9 +110,35 @@ int main(int argc, char * * argv)
 				}
 				gateway = inet_addr(argv[++i]);
 				break;
+			case 'p':
+				if(argc < i + 1) {
+					fprintf(stderr, "Not enough arguments for option -%c\n", argv[i][1]);
+					return 1;
+				}
+				i++;
+				if(0 == strcasecmp(argv[i], "tcp"))
+					protocol = NATPMP_PROTOCOL_TCP;
+				else if(0 == strcasecmp(argv[i], "udp"))
+					protocol = NATPMP_PROTOCOL_UDP;
+				else {
+					fprintf(stderr, "%s is not a valid protocol\n", argv[i]);
+					return 1;
+				}
+				break;
+			case 'l':
+				if(argc < i + 1) {
+					fprintf(stderr, "Not enough arguments for option -%c\n", argv[i][1]);
+					return 1;
+				}
+				i++;
+				if(1 != sscanf(argv[i], "%u", &lifetime)) {
+					fprintf(stderr, "%s is not a correct 32bits unsigned integer\n", argv[i]);
+					return 1;
+				}
+				break;
 			case 'a':
 				command = 'a';
-				if(argc < i + 4) {
+				if(argc < i + 2) {
 					fprintf(stderr, "Not enough arguments for option -%c\n", argv[i][1]);
 					return 1;
 				}
@@ -123,22 +151,6 @@ int main(int argc, char * * argv)
 				if(1 != sscanf(argv[i], "%hu", &privateport)) {
 					fprintf(stderr, "%s is not a correct 16bits unsigned integer\n", argv[i]);
 					return 1;
-				}
-				i++;
-				if(0 == strcasecmp(argv[i], "tcp"))
-					protocol = NATPMP_PROTOCOL_TCP;
-				else if(0 == strcasecmp(argv[i], "udp"))
-					protocol = NATPMP_PROTOCOL_UDP;
-				else {
-					fprintf(stderr, "%s is not a valid protocol\n", argv[i]);
-					return 1;
-				}
-				if(argc > i + 1) {
-					if(1 != sscanf(argv[i+1], "%u", &lifetime)) {
-						fprintf(stderr, "%s is not a correct 32bits unsigned integer\n", argv[i]);
-					} else {
-						i++;
-					}
 				}
 				break;
 			default:
