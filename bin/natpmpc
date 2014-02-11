@@ -91,6 +91,10 @@ typedef struct {
 	unsigned port_mappings_count;
 } arguments_t;
 
+/*
+ * == Argument parsing ========================================================
+ */
+
 static void parse_port_mapping(const char* s, port_mapping_t* p_port_mapping) {
 	p_port_mapping->publicport = 0;
 	p_port_mapping->privateport = 0;
@@ -104,12 +108,12 @@ static void parse_port_mapping(const char* s, port_mapping_t* p_port_mapping) {
 		s += 4;
 	}
 
-	if(2 == sscanf(s, "%hu:%hu", &p_port_mapping->privateport, &p_port_mapping->publicport)) {
+	if(2 == sscanf(s, "%hu:%hu", &p_port_mapping->publicport, &p_port_mapping->privateport)) {
 		return;
 	}
 
 	if(1 == sscanf(s, "%hu", &p_port_mapping->publicport)) {
-		p_port_mapping->publicport = p_port_mapping->privateport;
+		p_port_mapping->privateport = p_port_mapping->publicport;
 		return;
 	}
 
@@ -159,7 +163,106 @@ static void parse_args(const char** argv, arguments_t* args) {
 
 #define MAX_TRIES 6
 
-/* sample code for using libnatpmp */
+/*
+ * == NAT-PMP high level interface ============================================
+ */
+
+static int natpmp_init(natpmp_t* natpmp, arguments_t* args)
+{
+	int r = initnatpmp(natpmp, args->gateway != 0, args->gateway);
+	fprintf(debug, "initnatpmp() returned %d (%s)\n", r, r?"FAILED":"SUCCESS");
+	if(r < 0) return NO;
+
+	/* log gateway */
+	struct in_addr gateway_in_use;
+	gateway_in_use.s_addr = natpmp->gateway;
+	fprintf(debug, "using NAT-PMP gateway : %s\n", inet_ntoa(gateway_in_use));
+
+	return YES;
+}
+
+static void natpmp_close(natpmp_t* natpmp)
+{
+	int r = closenatpmp(natpmp);
+	fprintf(debug, "closenatpmp() returned %d (%s)\n", r, r==0?"SUCCESS":"FAILED");
+}
+
+static natpmpresp_t* natpmp_wait_for_success_response(natpmp_t* natpmp, natpmpresp_t* response) {
+	int remaining_tries = MAX_TRIES;
+
+	while(remaining_tries > 0) {
+		fd_set fds;
+		struct timeval timeout;
+
+		FD_ZERO(&fds);
+		FD_SET(natpmp->s, &fds);
+		getnatpmprequesttimeout(natpmp, &timeout);
+
+		if(0 > select(FD_SETSIZE, &fds, NULL, NULL, &timeout)) {
+			perror("select()");
+			return 0;
+		}
+
+		int r = readnatpmpresponseorretry(natpmp, response);
+		int sav_errno = errno;
+		fprintf(debug, "readnatpmpresponseorretry returned %d (%s)\n", r, r==0?"OK":(r==NATPMP_TRYAGAIN?"TRY AGAIN":"FAILED"));
+		if(r == 0) {
+			fprintf(debug, "epoch = %u\n", response->epoch);
+			return response;
+		}
+
+		if(r != NATPMP_TRYAGAIN) {
+#ifdef ENABLE_STRNATPMPERR
+			fprintf(debug, "readnatpmpresponseorretry() failed : %s\n", strnatpmperr(r));
+#endif
+			fprintf(debug, "  errno=%d '%s'\n", sav_errno, strerror(sav_errno));
+			return 0;
+		}
+	}
+
+	fprintf(stderr, "Giving up after %d tries.\n", MAX_TRIES);
+	return 0;
+}
+
+static const char* natpmp_public_address(natpmp_t* natpmp, char* publicaddress)
+{
+	int r = sendpublicaddressrequest(natpmp);
+	fprintf(debug, "sendpublicaddressrequest returned %d (%s)\n", r, r==2?"SUCCESS":"FAILED");
+	if(r<0) return 0;
+
+	natpmpresp_t response_buf;
+	natpmpresp_t *response = natpmp_wait_for_success_response(natpmp, &response_buf);
+	if(!response)
+		return 0;
+
+	/* TODO : check that response.type == 0 */
+	fprintf(debug, "Public IP address : %s\n", inet_ntoa(response->pnu.publicaddress.addr));
+	sprintf(publicaddress, "%s", inet_ntoa(response->pnu.publicaddress.addr));
+
+	return publicaddress;
+}
+
+static int natpmp_map_port(natpmp_t* natpmp, port_mapping_t* port_mapping, unsigned* lifetime) {
+	int r = sendnewportmappingrequest(natpmp, port_mapping->protocol,
+				port_mapping->privateport, port_mapping->publicport,
+				port_mapping->lifetime);
+	fprintf(debug, "sendnewportmappingrequest returned %d (%s)\n",
+	       r, r==12?"SUCCESS":"FAILED");
+	if(r < 0)
+		return NO;
+
+	natpmpresp_t response_buf;
+	natpmpresp_t *response = natpmp_wait_for_success_response(natpmp, &response_buf);
+	if(!response) return NO;
+
+	*lifetime = response->pnu.newportmapping.lifetime;
+	return YES;
+}
+
+/*
+ * == main ====================================================================
+ */
+
 int main(int argc, const char ** argv)
 {
 
@@ -180,108 +283,55 @@ int main(int argc, const char ** argv)
 
 	debug = args.verbose ? stderr : fopen("/dev/null", "w");
 
+	// if(args.verbose) {
+	// 	unsigned i = 0;
+	// 	for(i = 0; i<args.port_mappings_count; ++i) {
+	// 		port_mapping_t* mapping = args.port_mappings + i;
+	//
+	// 		const char* protocol = mapping->protocol == NATPMP_PROTOCOL_UDP ? "udp" : "tcp";
+	// 		fprintf(stderr, "%s: public:%hu -> localhost:%hu: pending (lifetime %u)\n", 
+	// 			protocol, mapping->publicport, mapping->privateport, mapping->lifetime);
+	// 	}
+	// }
+
+	/*
+	 * Try to get NAT-PMP public IP. We use that to decide whether we are
+	 * going NAT-PMP or UPnP.
+	 */
+
 	natpmp_t natpmp;
-	natpmpresp_t response;
 
-	int sav_errno;
-	struct timeval timeout;
-	fd_set fds;
-	struct in_addr gateway_in_use;
-
-	/* initnatpmp() */
-	int r = initnatpmp(&natpmp, args.gateway != 0, args.gateway);
-	fprintf(debug, "initnatpmp() returned %d (%s)\n", r, r?"FAILED":"SUCCESS");
-	if(r<0)
-		return 1;
-
-	gateway_in_use.s_addr = natpmp.gateway;
-	fprintf(debug, "using gateway : %s\n", inet_ntoa(gateway_in_use));
-
-	/* sendpublicaddressrequest() */
-	r = sendpublicaddressrequest(&natpmp);
-	fprintf(debug, "sendpublicaddressrequest returned %d (%s)\n", r, r==2?"SUCCESS":"FAILED");
-	if(r<0)
-		return 1;
-
-	int try = 0;
-	do {
-		FD_ZERO(&fds);
-		FD_SET(natpmp.s, &fds);
-		getnatpmprequesttimeout(&natpmp, &timeout);
-		r = select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
-		if(r<0) {
-			perror("select()");
-			return 1;
-		}
-		r = readnatpmpresponseorretry(&natpmp, &response);
-		sav_errno = errno;
-		fprintf(debug, "readnatpmpresponseorretry returned %d (%s)\n", r, r==0?"OK":(r==NATPMP_TRYAGAIN?"TRY AGAIN":"FAILED"));
-		if(r<0 && r!=NATPMP_TRYAGAIN) {
-#ifdef ENABLE_STRNATPMPERR
-			fprintf(debug, "readnatpmpresponseorretry() failed : %s\n", strnatpmperr(r));
-#endif
-			fprintf(debug, "  errno=%d '%s'\n",
-			        sav_errno, strerror(sav_errno));
-		}
-	} while(r==NATPMP_TRYAGAIN && ++try < MAX_TRIES);
-	if(r<0) {
-		if(try >= MAX_TRIES) {
-			fprintf(stderr, "Giving up.\n");
-		}
+	if(!natpmp_init(&natpmp, &args)) {
+		fprintf(stderr, "Cannot initialize NAT-PMP.\n");
 		return 1;
 	}
 
-	/* TODO : check that response.type == 0 */
-	fprintf(debug, "Public IP address : %s\n", inet_ntoa(response.pnu.publicaddress.addr));
-	printf("%s\n", inet_ntoa(response.pnu.publicaddress.addr));
-	fprintf(debug, "epoch = %u\n", response.epoch);
-
-	unsigned i = 0;
-	for(i = 0; i<args.port_mappings_count; ++i) {
-		port_mapping_t* port_mapping = args.port_mappings + i;
-
-		/* sendnewportmappingrequest() */
-		r = sendnewportmappingrequest(&natpmp, port_mapping->protocol,
-        	                      port_mapping->privateport, port_mapping->publicport,
-								  port_mapping->lifetime);
-		fprintf(debug, "sendnewportmappingrequest returned %d (%s)\n",
-		       r, r==12?"SUCCESS":"FAILED");
-		if(r < 0)
-			return 1;
-
-		do {
-			FD_ZERO(&fds);
-			FD_SET(natpmp.s, &fds);
-			getnatpmprequesttimeout(&natpmp, &timeout);
-			select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
-			r = readnatpmpresponseorretry(&natpmp, &response);
-			fprintf(debug, "readnatpmpresponseorretry returned %d (%s)\n",
-			       r, r==0?"OK":(r==NATPMP_TRYAGAIN?"TRY AGAIN":"FAILED"));
-		} while(r==NATPMP_TRYAGAIN);
-		if(r<0) {
-#ifdef ENABLE_STRNATPMPERR
-			fprintf(debug, "readnatpmpresponseorretry() failed : %s\n",
-			        strnatpmperr(r));
-#endif
-			return 1;
-		}
-
-		fprintf(debug, "Mapped public port %hu protocol %s to local port %hu "
-		       "liftime %u\n",
-	    	   response.pnu.newportmapping.mappedpublicport,
-			   response.type == NATPMP_RESPTYPE_UDPPORTMAPPING ? "UDP" :
-			    (response.type == NATPMP_RESPTYPE_TCPPORTMAPPING ? "TCP" :
-			     "UNKNOWN"),
-			   response.pnu.newportmapping.privateport,
-			   response.pnu.newportmapping.lifetime);
-		fprintf(debug, "epoch = %u\n", response.epoch);
+	char publicaddress_buf[32];
+	const char* publicaddress = natpmp_public_address(&natpmp, publicaddress_buf);
+	if(!publicaddress) {
+		fprintf(stderr, "NAT-PMP: Cannot find public IP address. NAT-PMP is not available.\n");
 	}
 
-	r = closenatpmp(&natpmp);
-	fprintf(debug, "closenatpmp() returned %d (%s)\n", r, r==0?"SUCCESS":"FAILED");
-	if(r<0)
-		return 1;
+	if(publicaddress) {
+		if(args.port_mappings_count == 0)
+			printf("%s\n", publicaddress);
 
+		unsigned i = 0;
+		for(i = 0; i<args.port_mappings_count; ++i) {
+			port_mapping_t* mapping = args.port_mappings + i;
+
+			unsigned lifetime = 0;
+			int r = natpmp_map_port(&natpmp, mapping, &lifetime);
+
+			const char* protocol = mapping->protocol == NATPMP_PROTOCOL_UDP ? "udp" : "tcp";
+			fprintf(stderr, "NAT-PMP: %s: %s:%hu -> localhost:%hu: %s (lifetime %u)\n", 
+				protocol, publicaddress, mapping->publicport, mapping->privateport, (r ? "OK" : "FAIL"), lifetime);
+
+			if(!r) break;
+		}
+	}
+
+	natpmp_close(&natpmp);
 	return 0;
 }
 
