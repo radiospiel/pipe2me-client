@@ -55,6 +55,7 @@ module Pipe2me::Tunnel::Commands
       -i #{T::SSH_PRIVKEY}
       -o StrictHostKeyChecking=no
       -o UserKnownHostsFile=pipe2me.known_hosts
+      -o PasswordAuthentication=no
       -N
     SHELL
 
