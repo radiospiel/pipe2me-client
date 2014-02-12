@@ -1,3 +1,28 @@
+# v0.2.9: Wed Feb 12 15:19:34 2014
+
+- echo servers: bind to all interfaces; see #13 [radiospiel]
+- Update tests and documentation to use test.pipe2.me on default ports. [radiospiel]
+- Disable port mapping for now, see #6 [radiospiel]
+- Fixes argument parsing [radiospiel]
+- Automatically start port mapping, see #6 [radiospiel]
+- Remove obsolete example session, see #5 [radiospiel]
+- Disable Password auth for clients, fixes #11. [radiospiel]
+- Merge branch 'nat-pmp' [radiospiel]
+- natpmpc: fixed argument parsing, see #6 [radiospiel]
+- natpmpc: stricter error checking, see #6 [radiospiel]
+- natpmpc: adds -v (verbose) flag, see #6 [radiospiel]
+- natpmpc: refactor argument parsing, see #6 [radiospiel]
+- natpmpc: set lifetime via -l option, see #6 [radiospiel]
+- Adds a script to set up NAT-PMP port forwarding, see #6 [radiospiel]
+- Improve example session layout. [radiospiel]
+- Merge branch 'master' of github.com:kinkome/pipe2me-client [Leslie P. Polzer]
+- Update example session document. [Leslie P. Polzer]
+- adapted 2 tests to run on linux [vilwarin]
+- Update README [radiospiel]
+- Fixes test:release to actually run against test.pipe2.me [radiospiel]
+- Properly checks for monit path. [radiospiel]
+- Fix typo. [Leslie P. Polzer]
+
 # v0.2.8: Thu Jan 23 15:07:25 2014
 
 - Bumps version number. [radiospiel]
