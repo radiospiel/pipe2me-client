@@ -44,7 +44,7 @@ require "webrick/https"
 
 RACK_SERVER_OPTIONS = {
   :app => Application,
-  :BindAddress => "localhost",
+  # :BindAddress => "localhost",
   :Port => ENV["PORT"] || 8080,
   :server => "webrick",
   :Logger => WEBrick::BasicLog.new($stderr, WEBrick::BasicLog::WARN)
