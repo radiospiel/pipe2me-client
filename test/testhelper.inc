@@ -1,6 +1,6 @@
 # The pipe2me binary to test
 pipe2me=$(cd $(dirname $1)/../bin && pwd)/pipe2me
-# pipe2me_server=http://test.pipe2.me:8080
+# pipe2me_server=http://test.pipe2.me
 
 # Load test scenario settings
 echo "Load $TEST_ENV test settings"

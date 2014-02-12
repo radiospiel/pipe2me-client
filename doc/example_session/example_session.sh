@@ -3,7 +3,7 @@ TEMP_DIR=$(mktemp -d)
 cd "$TEMP_DIR"
 
 pipe2me setup --protocols http,https \
-       --server http://test.pipe2.me:8080 \
+       --server http://test.pipe2.me \
        --token review@pipe2me --ports 9090,9091
 
 cat pipe2me.info.inc

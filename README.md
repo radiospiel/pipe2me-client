@@ -31,7 +31,7 @@ two services on localhost (http on port 9090, https on port 9091).
 <pre>
 # Setup tunnels. This responds with the domain name
 &gt; <b>pipe2me setup --protocols http,https \
-       --server http://test.pipe2.me:8080 \
+       --server http://test.pipe2.me \
        --token review@pipe2me --ports 9090,9091</b>
 pretty-ivory-horse.test.pipe2.me
 
@@ -87,7 +87,7 @@ to know more.
 
 A freshly installed pipe2me server comes with a number of preconfigured tokens.
 Of course, a server admin should (and probably would) change those tokens.
-However, as a test target, the pipe2me test server at http://test.pipe2.me:8080
+However, as a test target, the pipe2me test server at http://test.pipe2.me
 supports these tokens:
 
 - `test@pipe2me`: this builds tunnels that are available for 5 minutes.
