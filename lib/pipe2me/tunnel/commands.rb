@@ -49,6 +49,7 @@ module Pipe2me::Tunnel::Commands
       env AUTOSSH_GATETIME=0                                # comments work here..
       #{Which.AUTOSSH}
       -M 0
+      -F #{T::SSH_CONFIG}
       #{tunnel_uri.user}@#{tunnel_uri.host}
       -p #{tunnel_uri.port}
       -R 0.0.0.0:#{remote_port}:localhost:#{local_port}

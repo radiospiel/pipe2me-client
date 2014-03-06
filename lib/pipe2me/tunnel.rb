@@ -9,6 +9,8 @@ module Pipe2me::Tunnel
 
   SSH_PUBKEY  = "pipe2me.id_rsa.pub"
   SSH_PRIVKEY = "pipe2me.id_rsa"
+
+  SSH_CONFIG  = "pipe2me.ssh_config"
 end
 
 require_relative "tunnel/openssl"
@@ -83,6 +85,9 @@ module Pipe2me::Tunnel
     end
     unless File.exists?(SSL_CERT)
       ssl_certsign
+    end
+    unless File.exists?(SSH_CONFIG)
+      FileUtils.cp "#{File.dirname(__FILE__)}/tunnel/ssh_config", SSH_CONFIG
     end
   end
 end
