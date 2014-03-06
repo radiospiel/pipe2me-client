@@ -47,7 +47,7 @@ module Pipe2me::Tunnel::Commands
   def port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
     cmd = <<-SHELL
       env AUTOSSH_GATETIME=0                                # comments work here..
-      #{Which.AUTOSSH}
+      #{Which::AUTOSSH}
       -M 0
       -F #{T::SSH_CONFIG}
       #{tunnel_uri.user}@#{tunnel_uri.host}

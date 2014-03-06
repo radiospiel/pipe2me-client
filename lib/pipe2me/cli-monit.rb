@@ -27,7 +27,7 @@ class Pipe2me::CLI < Thor
     path = options[:echo] ? "pipe2me.monitrc.echo" : "pipe2me.monitrc"
 
     # The daemon binary
-    daemon = "#{Which.DAEMON} -D #{File.expand_path(Dir.getwd)}"
+    daemon = "#{Which::DAEMON} -D #{File.expand_path(Dir.getwd)}"
 
     port = options[:port]
 
