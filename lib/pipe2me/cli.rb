@@ -1,4 +1,5 @@
 require "thor"
+require_relative "which"
 
 class Pipe2me::CLI < Thor
   class_option :dir, :type => :string

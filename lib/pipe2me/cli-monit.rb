@@ -23,17 +23,11 @@ class Pipe2me::CLI < Thor
 
   private
 
-  def which!(cmd)
-    path = `which #{cmd}`.chomp
-    raise "Cannot find #{cmd} in your $PATH. Is it installed?" if path == ""
-    path
-  end
-
   def create_monitrc
     path = options[:echo] ? "pipe2me.monitrc.echo" : "pipe2me.monitrc"
 
     # The daemon binary
-    daemon = "#{which! :daemon} -D #{File.expand_path(Dir.getwd)}"
+    daemon = "#{Which.DAEMON} -D #{File.expand_path(Dir.getwd)}"
 
     port = options[:port]
 
