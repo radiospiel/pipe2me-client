@@ -3,7 +3,7 @@
 This is the ruby client for the pipe2me server package.
 The pipe2me client lets you publish local services to the public internet
 with the help and orchestration of a pipe2me server. For more details
-see [pipe2me](https://github.com/kinko/pipe2me)
+see [pipe2me](https://github.com/kinkome/pipe2me)
 
 ## Installation
 
