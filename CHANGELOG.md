@@ -1,3 +1,20 @@
+# v0.2.12: Wed Mar 19 11:18:37 2014
+
+- Merge branch 'master' of github.com:kinkome/pipe2me-client [eno]
+- Updates CHANGELOG.md [eno]
+- Bumps version number [eno]
+- Sometimes OpenStruct does not have []. [eno]
+- Merge pull request #14 from achabotl/master [eno]
+- Fix typo in URL to pipe2me in README. [Alexandre Chabot-Leclerc]
+- Updates CHANGELOG.md [eno]
+- Bump version number [eno]
+- Fixed syntax error. [eno]
+- Updates CHANGELOG.md [eno]
+- Updates CHANGELOG.md [eno]
+- Bump version number [eno]
+- Run {auto}ssh with a custom configuration. [eno]
+- Check early for required binaries [eno]
+
 # v0.2.12: Wed Mar 19 11:18:10 2014
 
 - Bumps version number [eno]
