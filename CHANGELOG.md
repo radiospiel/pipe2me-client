@@ -1,3 +1,16 @@
+# v0.2.12: Wed Mar 19 11:18:10 2014
+
+- Bumps version number [eno]
+- Sometimes OpenStruct does not have []. [eno]
+- Updates CHANGELOG.md [eno]
+- Bump version number [eno]
+- Fixed syntax error. [eno]
+- Updates CHANGELOG.md [eno]
+- Updates CHANGELOG.md [eno]
+- Bump version number [eno]
+- Run {auto}ssh with a custom configuration. [eno]
+- Check early for required binaries [eno]
+
 # v0.2.11: Thu Mar  6 22:50:51 2014
 
 - Bump version number [eno]
