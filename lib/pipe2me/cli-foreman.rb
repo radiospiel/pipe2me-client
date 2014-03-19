@@ -23,7 +23,7 @@ class Pipe2me::CLI < Thor
     end
 
     config = Pipe2me::Tunnel.send(:config)
-    fqdn = config[:fqdn]
+    fqdn = config.fqdn
 
     Pipe2me::Tunnel.tunnels.each do |protocol, remote_port, local_port|
       UI.success "Tunneling #{protocol}://localhost:#{local_port} <=> #{protocol}://#{fqdn}:#{remote_port}"
