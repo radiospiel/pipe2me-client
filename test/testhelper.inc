@@ -3,10 +3,8 @@ pipe2me=$(cd $(dirname $1)/../bin && pwd)/pipe2me
 # pipe2me_server=http://test.pipe2.me
 
 # Load test scenario settings
+TEST_ENV=${TEST_ENV:-debug}
 echo "Load $TEST_ENV test settings"
-if [ -z "$TEST_ENV" ]; then
-  TEST_ENV=debug
-fi
 
 . $(dirname $1)/testhelper.${TEST_ENV}
 
