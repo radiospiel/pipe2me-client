@@ -4,9 +4,9 @@ describe 'a HTTP(s) connection to subdomain.$pipe2me_server redirects to subdoma
 . $(dirname $1)/testhelper.inc
 
 it_redirects_https_connections() {
-  false [TODO] 'redirects https://subdomain.$pipe2me_server to https://subdomain.$pipe2me_server:port'
+  later 'redirects https://subdomain.$pipe2me_server to https://subdomain.$pipe2me_server:port'
 }
 
 it_redirects_http_connections() {
-  false [TODO] 'redirects http://subdomain.$pipe2me_server to http://subdomain.$pipe2me_server:port'
+  later 'redirects http://subdomain.$pipe2me_server to http://subdomain.$pipe2me_server:port'
 }
