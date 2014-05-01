@@ -1,3 +1,10 @@
+# v0.2.15: Thu May  1 21:45:56 2014
+
+- Fix changelog generation. [eno]
+- Bump version number [eno]
+- Always download cacert during setup. [eno]
+- Add --insecure option. [eno]
+
 # v0.2.14: Thu May  1 14:12:06 2014
 
 - Bump version number [eno]
