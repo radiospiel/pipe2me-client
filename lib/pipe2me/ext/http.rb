@@ -1,4 +1,5 @@
 require "net/http"
+require "net/https"
 require "ostruct"
 require "forwardable"
 
@@ -6,6 +7,15 @@ require "forwardable"
 # ease the pain of dealing with HTTP requests.
 module Pipe2me::HTTP
   extend self
+
+  def self.enable_insecure_mode
+    UI.error "Enabling insecure_mode"
+    @insecure_mode = true
+  end
+
+  def self.insecure_mode?
+    !! @insecure_mode
+  end
 
   # Error to be raised when maximum number of redirections is reached.
   class RedirectionLimit < RuntimeError; end
@@ -159,8 +169,13 @@ module Pipe2me::HTTP
       do_raw_request verb, uri, headers, body, config.max_redirections, uri, Net::HTTP::Get
     end
 
+  rescue ::OpenSSL::SSL::SSLError
+    UI.error "#{uri}: SSL connection failed"
+    UI.error "#{uri}: Note: you may use the -k/--insecure flag to disable certificate validation"
+    raise $!
   rescue
-    raise "#{uri}: #{$!}"
+    UI.error "#{uri} #{$!.class} #{$!}"
+    raise $!
   end
 
   def do_raw_request(verb, uri, headers, body, max_redirections, original_url, redirection_verb = Net::HTTP::Get)
@@ -175,6 +190,11 @@ module Pipe2me::HTTP
     http = Net::HTTP.new(uri.host, uri.port || default_port)
     if uri.scheme == "https"
       http.use_ssl = true
+
+      if insecure_mode?
+        UI.warn "Disabling certificate validation."
+        http.verify_mode = ::OpenSSL::SSL::VERIFY_NONE
+      end
     end
 
     # create request and get response

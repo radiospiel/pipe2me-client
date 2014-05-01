@@ -2,10 +2,11 @@ require "thor"
 require_relative "which"
 
 class Pipe2me::CLI < Thor
-  class_option :dir, :type => :string
-  class_option :verbose, :type => :boolean, :aliases => "-v"
-  class_option :quiet, :type => :boolean, :aliases => "-q"
-  class_option :silent, :type => :boolean
+  class_option :dir,                        :type => :string
+  class_option :verbose,  :aliases => "-v", :type => :boolean
+  class_option :quiet,    :aliases => "-q", :type => :boolean
+  class_option :silent,                     :type => :boolean
+  class_option :insecure, :aliases => "-k", :type => :boolean
 
   private
 
@@ -23,6 +24,10 @@ class Pipe2me::CLI < Thor
       Dir.chdir options[:dir]
       UI.info "Changed into", options[:dir]
     end
+
+    if options[:insecure]
+      Pipe2me::HTTP.enable_insecure_mode
+    end
   end
 
   public
@@ -37,10 +42,10 @@ class Pipe2me::CLI < Thor
   end
 
   desc "setup", "fetch a new tunnel setup"
-  option :server, :aliases => "-s", :default => "http://test.pipe2.me"
-  option :token, :required => true                    # "tunnel token"
-  option :protocols, :default => "https"              # "protocol names, e.g. 'http,https,imap'"
-  option :ports, :type => :string                     # "local ports, one per protocol"
+  option :server,     :aliases => "-s", :default => "http://test.pipe2.me"
+  option :token,      :required => true                       # "tunnel token"
+  option :protocols,  :default => "https"                     # "protocol names, e.g. 'http,https,imap'"
+  option :ports,      :type => :string                        # "local ports, one per protocol"
   def setup
     handle_global_options
 
