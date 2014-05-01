@@ -8,9 +8,13 @@ task :release => :changelog
 task :changelog do
   require "simple/ui"
   FileUtils.cp "CHANGELOG.md", "CHANGELOG.old.md"
-  last_version = `git tag -l 'v[0-9]*' | sort -n | tail -n 1`
-  last_version.chomp!
   
+  version_tags = `git tag -l 'v[0-9]*'`.split("\n")
+  version_tags = version_tags.sort_by do |tag|
+    tag.split(/\D+/).reject(&:empty?).map(&:to_i)
+  end
+  last_version = version_tags.last
+
   current_version = `bin/pipe2me version`.chomp
   UI.success "Changes from #{last_version} .. #{current_version}:"
 
