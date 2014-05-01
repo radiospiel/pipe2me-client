@@ -6,6 +6,7 @@ module Pipe2me::Tunnel
   # file names
   SSL_KEY     = "pipe2me.openssl.priv"
   SSL_CERT    = "pipe2me.openssl.cert"
+  SSL_CACERT  = "pipe2me.cacert"
 
   SSH_PUBKEY  = "pipe2me.id_rsa.pub"
   SSH_PRIVKEY = "pipe2me.id_rsa"
