@@ -1,5 +1,9 @@
 #!/usr/bin/env roundup
-describe "show pipe2me environment"
+describe "pipe2me environment tests"
+
+#
+# This tests check that the environment is setup properly.
+# Note: the environment is generated via "pipe2me env"
 
 . $(dirname $1)/testhelper.inc
 
