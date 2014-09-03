@@ -84,4 +84,17 @@ class Pipe2me::CLI < Thor
 
     Pipe2me::Tunnel.check
   end
+
+  desc "start", "start tunnels"
+  def start
+    handle_global_options
+
+    Pipe2me::Tunnel.tunnels.each do |tunnel|
+      UI.info "Setting up", tunnel
+    end
+
+    cmd = Pipe2me::Tunnel.command
+    UI.info cmd
+    Kernel.exec cmd
+  end
 end
