@@ -35,7 +35,8 @@ class Pipe2me::CLI < Thor
     piddir = File.expand_path "pipe2me.monit.pids"
     FileUtils.mkdir_p piddir
 
-    commands = Pipe2me::Tunnel.tunnel_commands
+    commands = []
+    commands << Pipe2me::Tunnel.tunnel_command
     # commands += Pipe2me::Tunnel.mapping_commands
     commands += Pipe2me::Tunnel.echo_commands if options[:echo]
 

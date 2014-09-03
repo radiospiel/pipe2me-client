@@ -7,9 +7,8 @@ class Pipe2me::CLI < Thor
     procfile = options[:echo] ? "pipe2me.procfile.echo" : "pipe2me.procfile"
 
     File.open procfile, "w" do |io|
-      Pipe2me::Tunnel.tunnel_commands.each do |name, cmd|
-        io.write "#{name}: #{cmd}\n"
-      end
+      name, cmd = Pipe2me::Tunnel.tunnel_command
+      io.write "#{name}: #{cmd}\n"
 
       # Pipe2me::Tunnel.mapping_commands.each do |name, cmd|
       #   io.write "#{name}: #{cmd}\n"

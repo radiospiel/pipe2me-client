@@ -18,22 +18,16 @@ module Pipe2me::Tunnel::Commands
   public
 
   # return an arry [ [name, command ], [name, command ], .. ]
-  def tunnel_commands
+  def tunnel_command
     tunnel_uri = URI.parse config.tunnel
 
-    tunnels.map do |protocol, remote_port, local_port|
-      next unless cmd = port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
-      [ "#{protocol}_#{remote_port}", cmd ]
-    end.compact
-  end
+    port_mappings = tunnels.map do |protocol, remote_port, local_port|
+      [ remote_port, local_port ]
+    end
 
-  # def mapping_commands
-  #   natpmpc = File.expand_path "#{File.dirname(__FILE__)}/../bin/natpmpc"
-  #   mappings = tunnels.map do |_, remote_port, local_port|
-  #     "tcp:#{remote_port}:#{local_port}"
-  #   end
-  #   [ [ "natpmpc", "#{natpmpc} #{mappings.join(" ")} && sleep 10000" ] ]
-  # end
+    cmd = port_tunnel_command(tunnel_uri, port_mappings)
+    [ "tunnel", cmd ]
+  end
 
   def echo_commands
     tunnels.map do |protocol, remote_port, local_port|
@@ -44,7 +38,11 @@ module Pipe2me::Tunnel::Commands
 
   private
 
-  def port_tunnel_command(tunnel_uri, protocol, remote_port, local_port)
+  def port_tunnel_command(tunnel_uri, port_mappings)
+    port_mappings = port_mappings.map do |remote_port, local_port|
+      "-R 0.0.0.0:#{remote_port}:localhost:#{local_port}"
+    end.join(" ")
+
     cmd = <<-SHELL
       env AUTOSSH_GATETIME=0                                # comments work here..
       #{Which::AUTOSSH}
@@ -52,7 +50,7 @@ module Pipe2me::Tunnel::Commands
       -F #{T::SSH_CONFIG}
       #{tunnel_uri.user}@#{tunnel_uri.host}
       -p #{tunnel_uri.port}
-      -R 0.0.0.0:#{remote_port}:localhost:#{local_port}
+      #{port_mappings}
       -i #{T::SSH_PRIVKEY}
       -o StrictHostKeyChecking=no
       -o UserKnownHostsFile=pipe2me.known_hosts
