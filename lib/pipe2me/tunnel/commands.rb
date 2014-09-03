@@ -57,6 +57,7 @@ module Pipe2me::Tunnel::Commands
       -o StrictHostKeyChecking=no
       -o UserKnownHostsFile=pipe2me.known_hosts
       -o PasswordAuthentication=no
+      -o ExitOnForwardFailure=yes 
       -N
     SHELL
 
