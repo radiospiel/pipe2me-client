@@ -1,3 +1,7 @@
+# v0.3.0: Wed Sep  3 14:30:25 2014
+
+
+
 # v0.3.0: Wed Sep  3 14:27:34 2014
 
 - Updates CHANGELOG.md [eno]
