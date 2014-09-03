@@ -182,7 +182,7 @@ subdirectories.
 
 ## COPYRIGHT
 
-**pipe2me** is Copyright (C) 2013,1024 The kinko team <https://kinko.me>
+**pipe2me** is Copyright (C) 2013,1024 The kinko.me team <https://kinko.me>
 
 The software contains third party code under their respective copyrights.
 Please see the README.md file for more information.

@@ -107,4 +107,4 @@ under the terms of the MIT License (MIT), see COPYING.MIT for details.
 The subdirectory lib/vendor contains third-party code, which is subject to its own copyrights.
 Please see the respective source files for copyright information.
 
-(c) The kinko team, 2014
+(c) The kinko.me team, 2014
