@@ -12,6 +12,18 @@ module Pipe2me::Tunnel
   SSH_PRIVKEY = "pipe2me.id_rsa"
 
   SSH_CONFIG  = "pipe2me.ssh_config"
+  
+  def clear
+    [ 
+      SSL_KEY, SSL_CERT, SSL_CACERT, SSH_PUBKEY, SSH_PRIVKEY, SSH_CONFIG,
+      "pipe2me.info.inc", "pipe2me.local.inc",
+      "pipe2me.openssl.priv.csr", "pipe2me.openssl.rnd"
+    ].each do |base|
+        next unless File.exist?(base)
+        UI.info "Deleting #{base}" 
+        FileUtils.rm base
+    end
+  end
 end
 
 require_relative "tunnel/openssl"

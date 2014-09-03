@@ -97,4 +97,14 @@ class Pipe2me::CLI < Thor
     UI.info cmd
     Kernel.exec cmd
   end
+
+  desc "clear", "clear configuration"
+  def clear
+    handle_global_options
+
+    UI.error "This will remove the configuration in #{Dir.getwd}. Continue? (^C to cancel)"
+    STDIN.gets
+
+    Pipe2me::Tunnel.clear
+  end
 end
