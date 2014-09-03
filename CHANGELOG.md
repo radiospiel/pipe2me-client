@@ -1,3 +1,9 @@
+# v0.3.2: Wed Sep  3 15:19:04 2014
+
+- Bump version number [eno]
+- Show correct hostname in tunnel spec [eno]
+- Remove additional file during “pipe2me clear” [eno]
+
 # v0.3.1: Wed Sep  3 15:09:47 2014
 
 - Bump version number [eno]
