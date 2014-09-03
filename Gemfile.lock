@@ -1,10 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    dotenv (0.9.0)
-    foreman (0.63.0)
-      dotenv (>= 0.7)
-      thor (>= 0.13.6)
     hpricot (0.8.6)
     mustache (0.99.5)
     rack (1.5.2)
@@ -20,7 +16,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  foreman
   rack
   ronn
   simple-ui (~> 0.2.1)

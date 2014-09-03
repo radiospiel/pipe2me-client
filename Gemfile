@@ -6,5 +6,4 @@ end
 
 gem "rack"
 gem "thor"
-gem "foreman"
 gem "simple-ui", "~> 0.2.1"
