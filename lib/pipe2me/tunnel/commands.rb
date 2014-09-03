@@ -17,7 +17,7 @@ module Pipe2me::Tunnel::Commands
     urls, ports = config.urls, config.ports.split(",") 
     urls.zip(ports).map do |url, local_port|
       uri = URI.parse(url)
-      Spec.new uri.scheme, tunnel_uri.host, uri.port, local_port || uri.port
+      Spec.new uri.scheme, uri.host, uri.port, local_port || uri.port
     end
   end
 
