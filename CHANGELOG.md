@@ -1,3 +1,12 @@
+# v0.3.1: Wed Sep  3 15:09:47 2014
+
+- Bump version number [eno]
+- Updates CHANGELOG.md [eno]
+- Add “pipe2me clear” subcommand [eno]
+- Remove Pipe2me::Config module. [eno]
+- SImplify tunnel commands, adds “start” command again [eno]
+- Updates CHANGELOG.md [eno]
+
 # v0.3.1: Wed Sep  3 15:09:29 2014
 
 - Add “pipe2me clear” subcommand [eno]
