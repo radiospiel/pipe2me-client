@@ -40,7 +40,7 @@ pretty-ivory-horse.test.pipe2.me
 PIPE2ME_URLS_0=http://pretty-ivory-horse.test.pipe2.me:10003
 PIPE2ME_URLS_1=https://pretty-ivory-horse.test.pipe2.me:10004
 
-# Start the tunnels via foreman (but please review on using foreman)
+# Start the tunnels
 &gt; <b>pipe2me start</b>
 </pre>
 
