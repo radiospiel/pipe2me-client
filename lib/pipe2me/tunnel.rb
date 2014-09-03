@@ -34,7 +34,7 @@ module Pipe2me::Tunnel
     end
 
     # [todo] escape auth option
-    response = HTTP.post! "#{Pipe2me::Config.server}/tunnels/#{options[:token]}",
+    response = HTTP.post! "#{Pipe2me.server}/tunnels/#{options[:token]}",
       "protocols" => options[:protocols]
 
     server_info = ShellFormat.parse(response)
@@ -43,7 +43,7 @@ module Pipe2me::Tunnel
 
     ShellFormat.write "pipe2me.info.inc", server_info
     ShellFormat.write "pipe2me.local.inc",
-                        :server => Pipe2me::Config.server,
+                        :server => Pipe2me.server,
                         :ports => options[:ports]
 
     server_info

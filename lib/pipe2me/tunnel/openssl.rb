@@ -27,8 +27,8 @@ module Pipe2me::Tunnel::OpenSSL
 
     File.write SSL_CERT, cert
 
-    cacert = HTTP.get! "#{Pipe2me::Config.server}/cacert"
-    UI.error "Got #{cacert.length} byte from #{Pipe2me::Config.server}/cacert"
+    cacert = HTTP.get! "#{Pipe2me.server}/cacert"
+    UI.success "Got #{cacert.length} byte from #{Pipe2me.server}/cacert"
     File.write SSL_CACERT, cacert
   end
 end

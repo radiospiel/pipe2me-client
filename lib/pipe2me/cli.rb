@@ -49,7 +49,7 @@ class Pipe2me::CLI < Thor
   def setup
     handle_global_options
 
-    Pipe2me::Config.server = options[:server]
+    Pipe2me.server = options[:server]
     server_info = Pipe2me::Tunnel.setup options
 
     update
