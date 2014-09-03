@@ -15,8 +15,6 @@ module Pipe2me::Tunnel::Commands
     end
   end
 
-  public
-
   # return an arry [ [name, command ], [name, command ], .. ]
   def tunnel_command
     tunnel_uri = URI.parse config.tunnel
@@ -27,13 +25,6 @@ module Pipe2me::Tunnel::Commands
 
     cmd = port_tunnel_command(tunnel_uri, port_mappings)
     [ "tunnel", cmd ]
-  end
-
-  def echo_commands
-    tunnels.map do |protocol, remote_port, local_port|
-      next unless cmd = echo_server_command(protocol, local_port)
-      [ "echo_#{local_port}", cmd ]
-    end.compact
   end
 
   private
@@ -61,13 +52,5 @@ module Pipe2me::Tunnel::Commands
 
     # remove comments and newlines from commands
     cmd.gsub(/( *#.*|\s+)/, " ").gsub(/(^ )|( $)/, "")
-  end
-
-  def echo_server_command(protocol, port)
-    binary = File.dirname(__FILE__) + "/echo/#{protocol}"
-    return unless File.executable?(binary)
-
-    UI.info "Starting #{protocol} echo server on port #{port}"
-    "env PORT=#{port} #{binary}"
   end
 end
