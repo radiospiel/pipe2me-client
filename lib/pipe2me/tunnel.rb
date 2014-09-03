@@ -17,7 +17,8 @@ module Pipe2me::Tunnel
     [ 
       SSL_KEY, SSL_CERT, SSL_CACERT, SSH_PUBKEY, SSH_PRIVKEY, SSH_CONFIG,
       "pipe2me.info.inc", "pipe2me.local.inc",
-      "pipe2me.openssl.priv.csr", "pipe2me.openssl.rnd"
+      "pipe2me.openssl.priv.csr", "pipe2me.openssl.rnd",
+      "pipe2me.known_hosts"
     ].each do |base|
         next unless File.exist?(base)
         UI.info "Deleting #{base}" 
