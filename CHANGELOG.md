@@ -1,3 +1,14 @@
+# v0.3.0: Wed Sep  3 14:27:19 2014
+
+- Bumps version number, fix kinko typo (must be kinko.me). [eno]
+- Remove echo commands, see #15 [eno]
+- Remove foreman and monit command parsers, see #15 [eno]
+- Remove foreman dependency, see #15 [eno]
+- Remove monit, see #15 [eno]
+- Remove foreman, see #15 [eno]
+- Generate a single port forwarding command [eno]
+- Add ExitOnForwardFailure ssh options [eno]
+
 # v0.2.15: Thu May  1 21:45:56 2014
 
 - Fix changelog generation. [eno]
